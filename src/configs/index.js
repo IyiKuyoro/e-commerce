@@ -12,6 +12,11 @@ const config = () => {
         PORT: process.env.PORT,
         LOGGY_TOKEN: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         LOGGY_SUBDOMAIN: 'subdomain',
+        DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+        DATABASE: process.env.DATABASE_TEST,
+        DATABASE_HOST: process.env.DATABASE_HOST,
+        DATABASE_DIALECT: process.env.DATABASE_DIALECT,
       };
     }
     case 'prod': {
@@ -20,6 +25,11 @@ const config = () => {
         PORT: process.env.PORT,
         LOGGY_TOKEN: process.env.LOGGY_TOKEN,
         LOGGY_SUBDOMAIN: process.env.LOGGY_SUBDOMAIN,
+        DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+        DATABASE: process.env.DATABASE,
+        DATABASE_HOST: process.env.DATABASE_HOST,
+        DATABASE_DIALECT: process.env.DATABASE_DIALECT,
       };
     }
     default: {
@@ -28,6 +38,11 @@ const config = () => {
         PORT: process.env.PORT,
         LOGGY_TOKEN: process.env.LOGGY_TOKEN,
         LOGGY_SUBDOMAIN: process.env.LOGGY_SUBDOMAIN,
+        DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+        DATABASE: process.env.DATABASE_DEV,
+        DATABASE_HOST: process.env.DATABASE_HOST,
+        DATABASE_DIALECT: process.env.DATABASE_DIALECT,
       };
     }
   }

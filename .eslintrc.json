@@ -13,5 +13,7 @@
         "sourceType": "module"
     },
     "rules": {
+      "arrow-parens": "off",
+      "max-len": "off"
     }
 }
