@@ -9,6 +9,8 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.js',
     '!<rootDir>/src/index.js',
+    '!<rootDir>/src/configs/*.js',
+    '!<rootDir>/src/helpers/logger.js',
     '!**/node_modules/**',
   ],
   coverageDirectory: 'coverage', // The directory where Jest should output its coverage files
