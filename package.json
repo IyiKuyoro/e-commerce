@@ -10,7 +10,7 @@
     "format": "npm run lint && prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint ./src --fix",
     "start": "NODE_ENV=prod node ./bin/prod",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "repository": {
     "type": "git",
@@ -42,7 +42,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "nodemon": "^1.19.1",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2"
   },
   "nodemonConfig": {
     "watch": [

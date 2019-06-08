@@ -25,3 +25,5 @@ app.use('*', (req, res) => {
 app.listen(config.PORT, () => {
   logger.info(`Server is now running on port: ${config.PORT}`);
 });
+
+export default app;
