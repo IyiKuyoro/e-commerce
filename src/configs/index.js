@@ -26,7 +26,7 @@ const config = () => {
         LOGGY_TOKEN: process.env.LOGGY_TOKEN,
         LOGGY_SUBDOMAIN: process.env.LOGGY_SUBDOMAIN,
         DATABASE_USERNAME: process.env.DATABASE_USERNAME,
-        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+        DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || null,
         DATABASE: process.env.DATABASE,
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
