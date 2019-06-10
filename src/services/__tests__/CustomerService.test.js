@@ -2,7 +2,7 @@ import CustomerService from '../CustomerService';
 import sequelize from '../../database/models/sequelize';
 
 describe('UserService', () => {
-  describe('addUser', () => {
+  describe('.addUser()', () => {
     let customerId;
 
     it('should return the newly added user', async () => {

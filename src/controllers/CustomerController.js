@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 import ResponseHelper from '../helpers/ResponseHelper';
 import CustomerService from '../services/CustomerService';
-import tokenGenerator from '../helpers/helperFunctions';
+import { tokenGenerator } from '../helpers/helperFunctions';
 import config from '../configs';
 
 export default class CustomerController {
