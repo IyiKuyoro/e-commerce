@@ -6,7 +6,7 @@ describe('ProductService', () => {
       const rows = await ProductService.getProducts();
 
       expect(rows[0].name).toEqual('Haute Couture');
-      expect(rows.length).toEqual(4);
+      expect(rows.length).toEqual(20);
     });
   });
 
@@ -14,7 +14,7 @@ describe('ProductService', () => {
     it('should get all products that exists', async () => {
       const counts = await ProductService.getProductsCounts();
 
-      expect(counts).toEqual(4);
+      expect(counts).toEqual(101);
     });
   });
 });
