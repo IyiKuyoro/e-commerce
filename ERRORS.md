@@ -1,4 +1,4 @@
-# Errors
+****# Errors
 
 Here is a documentation of the errors that can occur at runtime.
 
