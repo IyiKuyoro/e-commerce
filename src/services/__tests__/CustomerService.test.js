@@ -6,7 +6,7 @@ describe('UserService', () => {
     let customerId;
 
     it('should return the newly added user', async () => {
-      const user = await CustomerService.addUser('David James', 'david.james@test.com', 'DJames');
+      const user = await CustomerService.addCustomer('David James', 'david.james@test.com', 'DJames');
 
       customerId = user.customer_id;
       expect(user.email).toEqual('david.james@test.com');

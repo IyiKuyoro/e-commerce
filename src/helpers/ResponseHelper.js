@@ -2,6 +2,22 @@ import Logger from './logger';
 
 export default class ResponseHelper {
   /**
+   * @description Send a newly created resource response
+   * @param  {object} payload The response body
+   * @param  {string} location The new location of the resource
+   * @param  {object} res The HTTP response object
+   */
+  static successWithDataCreated(payload, location, res) {
+    res.set({
+      url: location,
+    });
+    res.status(201).json({
+      success: true,
+      ...payload,
+    });
+  }
+
+  /**
    * @description Send an error response
    * @param  {Object} error The error object
    * @param  {Object} res The HTTP express response object

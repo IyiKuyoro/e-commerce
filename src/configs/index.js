@@ -10,6 +10,8 @@ const config = () => {
       return {
         ENV: 'test',
         PORT: process.env.PORT,
+        SECRETE: process.env.SECRETE,
+        URL: process.env.URL,
         LOGGY_TOKEN: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         LOGGY_SUBDOMAIN: 'subdomain',
         DATABASE_USERNAME: process.env.DATABASE_USERNAME,
@@ -23,6 +25,8 @@ const config = () => {
       return {
         ENV: 'production',
         PORT: process.env.PORT,
+        SECRETE: process.env.SECRETE,
+        URL: process.env.URL,
         LOGGY_TOKEN: process.env.LOGGY_TOKEN,
         LOGGY_SUBDOMAIN: process.env.LOGGY_SUBDOMAIN,
         DATABASE_USERNAME: process.env.DATABASE_USERNAME,
@@ -36,6 +40,8 @@ const config = () => {
       return {
         ENV: 'development',
         PORT: process.env.PORT,
+        SECRETE: process.env.SECRETE,
+        URL: process.env.URL,
         LOGGY_TOKEN: process.env.LOGGY_TOKEN,
         LOGGY_SUBDOMAIN: process.env.LOGGY_SUBDOMAIN,
         DATABASE_USERNAME: process.env.DATABASE_USERNAME,

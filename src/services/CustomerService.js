@@ -1,7 +1,7 @@
 import sequelize from '../database/models/sequelize';
 
-export default class UserService {
-  static async addUser(name, email, password) {
+export default class CustomerService {
+  static async addCustomer(name, email, password) {
     const sql = `CALL customer_add("${name}", "${email}", "${password}");`;
     const newUser = await sequelize.query(sql, { raw: false });
 
