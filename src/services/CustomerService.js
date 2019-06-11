@@ -28,4 +28,15 @@ export default class CustomerService {
 
     return user[0];
   }
+
+  /**
+   * @description This method gets customer information
+   * @param  {} customerId
+   */
+  static async getCustomer(customerId) {
+    const sql = `CALL customer_get_customer(${customerId});`;
+    const user = await sequelize.query(sql, { raw: false });
+
+    return user[0];
+  }
 }

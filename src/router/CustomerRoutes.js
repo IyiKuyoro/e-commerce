@@ -6,10 +6,17 @@ const customerRouter = Router();
 
 customerRouter.post(
   '/',
-  CustomerMiddlewares.checkRequiredParams,
+  CustomerMiddlewares.checkRequiredRegParams,
   CustomerMiddlewares.validateParams,
   CustomerMiddlewares.checkAvailableEmail,
   CustomerControllers.registerCustomer,
+);
+
+customerRouter.post(
+  '/login',
+  CustomerMiddlewares.checkRequiredLoginParams,
+  CustomerMiddlewares.validLoginParams,
+  CustomerControllers.loginCustomer,
 );
 
 export default customerRouter;

@@ -18,6 +18,18 @@ export default class ResponseHelper {
   }
 
   /**
+   * @description Send a newly created resource response
+   * @param  {object} payload The response body
+   * @param  {object} res The HTTP response object
+   */
+  static successWithData(payload, res) {
+    res.status(200).json({
+      success: true,
+      ...payload,
+    });
+  }
+
+  /**
    * @description Send an error response
    * @param  {Object} error The error object
    * @param  {Object} res The HTTP express response object
