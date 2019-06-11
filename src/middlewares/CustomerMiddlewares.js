@@ -69,7 +69,7 @@ export default class CustomerMiddlewares {
    * @param  {object} res The HTTP response object
    * @param  {Function} next The next middleware
    */
-  static checkRequiredParams(req, res, next) {
+  static checkRequiredRegParams(req, res, next) {
     try {
       const errors = checkProps(req.body, 'name', 'email', 'password');
 
@@ -85,9 +85,9 @@ export default class CustomerMiddlewares {
 
   /**
    * @description Check that email is available
-   * @param  {} req
-   * @param  {} res
-   * @param  {} next
+   * @param  {object} req The HTTP request object
+   * @param  {object} res The HTTP response object
+   * @param  {Function} next The next middleware
    */
   static async checkAvailableEmail(req, res, next) {
     try {
@@ -95,6 +95,51 @@ export default class CustomerMiddlewares {
 
       if (user) {
         throw new AppError('USR_4', 409, 'This email is already in use', ['email']);
+      }
+
+      next();
+    } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
+
+  /**
+   * @description Checks that the required parameters are passed on signin
+   * @param  {object} req The HTTP request object
+   * @param  {object} res The HTTP response object
+   * @param  {Function} next The next middleware
+   */
+  static async checkRequiredLoginParams(req, res, next) {
+    try {
+      const errors = checkProps(req.body, 'email', 'password');
+
+      if (errors.length > 0) {
+        throw new AppError('USR_10', 400, 'Some required parameters are missing from the request body', errors);
+      }
+
+      next();
+    } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
+
+  /**
+   * @description Checks that the required parameters are of the right type
+   * @param  {object} req The HTTP request object
+   * @param  {object} res The HTTP response object
+   * @param  {Function} next The next middleware
+   */
+  static async validLoginParams(req, res, next) {
+    try {
+      const { email } = req.body;
+      const errors = [];
+
+      if (!Helpers.validateEmail(email)) {
+        errors.push('email');
+      }
+
+      if (errors.length > 0) {
+        throw new AppError('USR_10', 400, 'Some parameters are not valid', errors);
       }
 
       next();

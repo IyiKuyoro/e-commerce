@@ -54,7 +54,7 @@ describe('CustomerMiddlewares', () => {
     });
   });
 
-  describe('.checkRequiredParams()', () => {
+  describe('.checkRequiredRegParams()', () => {
     let res;
     let status;
     let json;
@@ -73,7 +73,7 @@ describe('CustomerMiddlewares', () => {
       };
       const next = jest.fn();
 
-      CustomerMiddlewares.checkRequiredParams(req, res, next);
+      CustomerMiddlewares.checkRequiredRegParams(req, res, next);
 
       expect(status).toHaveBeenCalledWith(400);
       expect(json).toHaveBeenCalledWith({
@@ -97,7 +97,7 @@ describe('CustomerMiddlewares', () => {
       };
       const next = jest.fn();
 
-      CustomerMiddlewares.checkRequiredParams(req, res, next);
+      CustomerMiddlewares.checkRequiredRegParams(req, res, next);
 
       expect(next).toHaveBeenCalledTimes(1);
     });
@@ -154,6 +154,101 @@ describe('CustomerMiddlewares', () => {
       jest.spyOn(CustomerService, 'getLoginInfo').mockImplementation(async () => undefined);
 
       await CustomerMiddlewares.checkAvailableEmail(req, res, next);
+
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('.checkRequiredLoginParams()', () => {
+    let res;
+    let status;
+    let json;
+
+    beforeEach(() => {
+      res = new ResMock();
+      status = jest.spyOn(res, 'status');
+      json = jest.spyOn(res, 'json');
+    });
+
+    it('should throw an error if parameters are missing', () => {
+      const req = {
+        body: {},
+      };
+      const next = jest.fn();
+
+      CustomerMiddlewares.checkRequiredLoginParams(req, res, next);
+
+      expect(status).toHaveBeenCalledWith(400);
+      expect(json).toHaveBeenCalledWith({
+        success: false,
+        error: {
+          status: 400,
+          code: 'USR_10',
+          message: 'Some required parameters are missing from the request body',
+          fields: ['email', 'password'],
+        },
+      });
+    });
+
+    it('should call the next middleware if the required parameters are passed', () => {
+      const req = {
+        body: {
+          email: 'j.doe@test.com',
+          password: 'xxxxxxxxxxxxx',
+        },
+      };
+      const next = jest.fn();
+
+      CustomerMiddlewares.checkRequiredLoginParams(req, res, next);
+
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('.validLoginParams', () => {
+    let res;
+    let status;
+    let json;
+
+    beforeEach(() => {
+      res = new ResMock();
+      status = jest.spyOn(res, 'status');
+      json = jest.spyOn(res, 'json');
+    });
+
+    it('should throw an error for an invalid email', () => {
+      const req = {
+        body: {
+          email: 'j.doetest.com',
+          password: 'xxxxxxxxxxxxx',
+        },
+      };
+      const next = jest.fn();
+
+      CustomerMiddlewares.validLoginParams(req, res, next);
+
+      expect(status).toHaveBeenCalledWith(400);
+      expect(json).toHaveBeenCalledWith({
+        success: false,
+        error: {
+          status: 400,
+          code: 'USR_10',
+          message: 'Some parameters are not valid',
+          fields: ['email'],
+        },
+      });
+    });
+
+    it('should call the next middleware if the email is valid', () => {
+      const req = {
+        body: {
+          email: 'j.doe@test.com',
+          password: 'xxxxxxxxxxxxx',
+        },
+      };
+      const next = jest.fn();
+
+      CustomerMiddlewares.validLoginParams(req, res, next);
 
       expect(next).toHaveBeenCalledTimes(1);
     });
