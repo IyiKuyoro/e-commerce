@@ -1,4 +1,4 @@
-****# Errors
+# Errors
 
 Here is a documentation of the errors that can occur at runtime.
 
@@ -14,3 +14,9 @@ Here is a documentation of the errors that can occur at runtime.
 - USR_08 - this is an invalid Credit Card.
 - USR_09 - The Shipping Region ID is not number
 - USR_10 - The param(s) provided are invalid.
+
+## Department's Errors
+
+DEP_01 - The ID is not a number.
+DEP_02 - No department with this ID.
+DEP_03 - Department ID not passed.

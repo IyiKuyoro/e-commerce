@@ -65,4 +65,14 @@ export default class ResponseHelper {
     });
     Logger.error(error);
   }
+
+  static notFoundError(resource, res) {
+    res.status(404).json({
+      success: false,
+      error: {
+        status: 404,
+        message: 'Resource not found',
+      },
+    });
+  }
 }
