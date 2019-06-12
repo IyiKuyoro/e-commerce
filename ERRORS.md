@@ -15,6 +15,12 @@ Here is a documentation of the errors that can occur at runtime.
 - USR_09 - The Shipping Region ID is not number
 - USR_10 - The param(s) provided are invalid.
 
+## Category's Errors
+
+CAT_01 - No category with this ID.
+CAT_02 - Category ID not passed.
+CAT_03 - The ID is not a number.
+
 ## Department's Errors
 
 DEP_01 - The ID is not a number.

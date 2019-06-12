@@ -72,4 +72,46 @@ export default class ProductsController {
       ResponseHelper.serverError(error, res);
     }
   }
+
+  /**
+   * @description Get the products by categories
+   * @param  {Object} req The http request object
+   * @param  {Object} res The http response object
+   */
+  static async getProductsByCategory(req, res) {
+    try {
+      const { page, limit, descriptionLength } = req.query;
+      const { categoryId } = req.params;
+
+      const results = await ProductServices.getProductsByCategory(categoryId, page, limit, descriptionLength);
+      const counts = await ProductServices.countProductsByCategory(categoryId);
+
+      const pageMeta = {
+        page: page || 1,
+        totalPages: Math.ceil(counts / (limit || 20)),
+        pageSize: results.length,
+        totalProducts: counts,
+      };
+
+      if (results.length <= 0) {
+        res.status(204).json({
+          success: true,
+          pageMeta,
+          rows: [],
+        });
+        return;
+      }
+
+      ResponseHelper.successWithData(
+        {
+          count: results.length,
+          pageMeta,
+          rows: results,
+        },
+        res,
+      );
+    } catch (error) {
+      ResponseHelper.serverError(error, res);
+    }
+  }
 }

@@ -11,4 +11,16 @@ export default class DepartmentService {
 
     return results;
   }
+
+  /**
+   * @description Get list of department details
+   * @param   {number} departmentId The department identification
+   */
+  static async getDepartmentDetails(departmentId) {
+    const results = await sequelize.query(`
+      CALL catalog_get_department_details("${departmentId}");
+    `);
+
+    return results;
+  }
 }
