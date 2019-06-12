@@ -57,6 +57,6 @@ export default class ProductServices {
 
     const results = await sequelize.query(sql, { raw: true });
 
-    return results;
+    return results[0].products_on_department_count;
   }
 }
