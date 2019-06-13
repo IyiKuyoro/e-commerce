@@ -51,5 +51,5 @@ module.exports = {
   transformIgnorePatterns: [
     '\\\\node_modules\\\\',
   ],
-  verbose: true, // Indicates whether each individual test should be reported during the run
+  verbose: false, // Indicates whether each individual test should be reported during the run
 };
