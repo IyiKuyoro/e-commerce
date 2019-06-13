@@ -16,6 +16,7 @@ describe('CategoryMiddlewares', () => {
       jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
         r(null);
       });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
     });
 
     it('should respond with error if the category is not found', async () => {

@@ -17,4 +17,12 @@ describe('ProductService', () => {
       expect(counts).toEqual(101);
     });
   });
+
+  describe('.getProductDetails()', () => {
+    it('should get the product', async () => {
+      const product = await ProductService.getProductDetails(1);
+
+      expect(product.name).toEqual("Arc d'Triomphe");
+    });
+  });
 });

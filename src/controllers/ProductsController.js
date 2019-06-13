@@ -1,6 +1,7 @@
 import ResponseHelper from '../helpers/ResponseHelper';
 import ProductServices from '../services/ProductServices';
 import RedisClient from '../helpers/RedisClient';
+import AppError from '../helpers/AppError';
 
 export default class ProductsController {
   /**
@@ -152,6 +153,40 @@ export default class ProductsController {
         });
     } catch (error) {
       ResponseHelper.serverError(error, res);
+    }
+  }
+
+  /**
+   * @description Get product details
+   * @param  {Object} req The http request object
+   * @param  {Object} res The http response object
+   */
+  static async getProductDetails(req, res) {
+    try {
+      const { productId } = req.params;
+      const redisKey = `product:${productId}`;
+
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            const cachedRes = JSON.parse(data);
+            ResponseHelper.successWithData(cachedRes, res);
+          } else {
+            const product = await ProductServices.getProductDetails(productId);
+
+            if (!product) {
+              throw new AppError('POD_01', 404, 'Product not found');
+            }
+
+            RedisClient.set(redisKey, JSON.stringify(product));
+            ResponseHelper.successWithData(product, res);
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
+    } catch (error) {
+      ResponseHelper.notFoundError(error, {}, res);
     }
   }
 }

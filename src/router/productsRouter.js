@@ -28,4 +28,7 @@ productRouter.get(
   ProductsController.getProductsByCategory,
 );
 
+// Get a specific product
+productRouter.get('/:productId', ProductMiddlewares.validateProductId, ProductsController.getProductDetails);
+
 export default productRouter;
