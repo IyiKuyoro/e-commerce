@@ -17,6 +17,7 @@ describe('ProductController', () => {
       jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
         r(null);
       });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
     });
 
     it('should get the products in the app', async () => {
@@ -112,6 +113,7 @@ describe('ProductController', () => {
       jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
         r(null);
       });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
     });
 
     it('should get the products in the requested department', async () => {
@@ -200,6 +202,7 @@ describe('ProductController', () => {
       jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
         r(null);
       });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
     });
 
     it('should get the products in the requested category', async () => {
@@ -270,6 +273,62 @@ describe('ProductController', () => {
           message: 'Server error has occurred!',
           status: 500,
         },
+      });
+    });
+  });
+
+  describe('.getProductDetails', () => {
+    let res;
+    let status;
+    let json;
+
+    beforeEach(() => {
+      res = new ResMock();
+      status = jest.spyOn(res, 'status');
+      json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
+    });
+
+    it('should respond with 404 if product is not found', async () => {
+      const req = {
+        params: {
+          productId: 1,
+        },
+      };
+
+      jest.spyOn(ProductServices, 'getProductDetails').mockImplementation(async () => undefined);
+
+      await ProductController.getProductDetails(req, res);
+
+      expect(status).toHaveBeenCalledWith(404);
+      expect(json).toHaveBeenCalledWith({
+        success: false,
+        error: {
+          message: 'Product not found',
+          code: 'POD_01',
+          status: 404,
+        },
+      });
+    });
+
+    it('should respond with product if found', async () => {
+      const req = {
+        params: {
+          productId: 1,
+        },
+      };
+
+      jest.spyOn(ProductServices, 'getProductDetails').mockImplementation(async () => ({ name: 'product' }));
+
+      await ProductController.getProductDetails(req, res);
+
+      expect(status).toHaveBeenCalledWith(200);
+      expect(json).toHaveBeenCalledWith({
+        success: true,
+        name: 'product',
       });
     });
   });

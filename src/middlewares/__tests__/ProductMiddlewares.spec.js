@@ -52,4 +52,40 @@ describe('ProductMiddlewares', () => {
       expect(next).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('validateProductId', () => {
+    let res;
+    let status;
+
+    beforeEach(() => {
+      res = new ResMock();
+      status = jest.spyOn(res, 'status');
+    });
+
+    it('should respond with 400 error if id is incorrect', () => {
+      const req = {
+        params: {
+          productId: 'one',
+        },
+      };
+      const next = jest.fn();
+
+      ProductMiddlewares.validateProductId(req, res, next);
+
+      expect(status).toHaveBeenCalledWith(400);
+    });
+
+    it('should call the next middleware if productId is a number', () => {
+      const req = {
+        params: {
+          productId: 1,
+        },
+      };
+      const next = jest.fn();
+
+      ProductMiddlewares.validateProductId(req, res, next);
+
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+  });
 });

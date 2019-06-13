@@ -92,4 +92,18 @@ export default class ProductServices {
 
     return results[0].products_on_category_count;
   }
+
+  /**
+   * @description Get product details
+   * @param  {number} productId the product id
+   */
+  static async getProductDetails(productId) {
+    const sql = `
+      CALL catalog_get_product_details("${productId}");
+    `;
+
+    const result = await sequelize.query(sql, { raw: true });
+
+    return result[0];
+  }
 }

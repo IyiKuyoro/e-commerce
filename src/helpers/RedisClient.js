@@ -12,9 +12,10 @@ const client = redis.createClient({
   url: config.REDISCLOUD_URL,
 });
 
-cron.schedule('* * 1 * *', () => {
-  client.flushdb();
-  Logger.info('Clearing cache');
+cron.schedule('30 * * * *', () => {
+  client.flushdb(() => {
+    Logger.info('Cache cleared');
+  });
 });
 
 export default client;

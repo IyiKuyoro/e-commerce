@@ -26,3 +26,8 @@ CAT_03 - The ID is not a number.
 DEP_01 - The ID is not a number.
 DEP_02 - No department with this ID.
 DEP_03 - Department ID not passed.
+
+## Product's Errors
+
+POD_01 - No product with this id.
+POD_02 - The id is not a number.

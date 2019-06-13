@@ -17,6 +17,7 @@ describe('DepartmentsController', () => {
       jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
         r(null);
       });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
     });
 
     it('should get the list of the departments in the database', async () => {

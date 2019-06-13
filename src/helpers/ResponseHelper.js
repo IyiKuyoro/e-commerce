@@ -66,13 +66,25 @@ export default class ResponseHelper {
     Logger.error(error);
   }
 
-  static notFoundError(resource, res) {
-    res.status(404).json({
-      success: false,
-      error: {
-        status: 404,
-        message: 'Resource not found',
-      },
-    });
+  /**
+   * @description Send 404 error message
+   * @param  {} error
+   * @param  {} payload
+   * @param  {} res
+   */
+  static notFoundError(error, payload, res) {
+    if (!error.statusCode) {
+      ResponseHelper.serverError(error, res);
+    } else {
+      res.status(404).json({
+        success: false,
+        error: {
+          code: error.code,
+          status: 404,
+          message: error.message,
+          ...payload,
+        },
+      });
+    }
   }
 }
