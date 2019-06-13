@@ -19,6 +19,7 @@ const config = () => {
         DATABASE: process.env.DATABASE_TEST,
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
+        REDISCLOUD_URL: process.env.REDISCLOUD_URL,
       };
     }
     case 'prod': {
@@ -34,6 +35,7 @@ const config = () => {
         DATABASE: process.env.DATABASE,
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
+        REDISCLOUD_URL: process.env.REDISCLOUD_URL,
       };
     }
     default: {
@@ -49,6 +51,7 @@ const config = () => {
         DATABASE: process.env.DATABASE_DEV,
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
+        REDISCLOUD_URL: process.env.REDISCLOUD_URL,
       };
     }
   }

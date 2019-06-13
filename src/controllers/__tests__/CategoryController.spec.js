@@ -2,6 +2,7 @@ import ResMock from '../../__mocks__/ResMock';
 import CategoryController from '../CategoryController';
 import CategoriesService from '../../services/CategoryService';
 import CategoriesServiceMock from '../../services/__mocks__/CategoryService.mock';
+import RedisClient from '../../helpers/RedisClient';
 
 describe('CategoryController', () => {
   describe('.getCategoriesList', () => {
@@ -13,6 +14,9 @@ describe('CategoryController', () => {
       res = new ResMock();
       status = jest.spyOn(res, 'status');
       json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
     });
 
     it('should get the list of the departments in the database', async () => {

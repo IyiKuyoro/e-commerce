@@ -1,6 +1,7 @@
 import ResMock from '../../__mocks__/ResMock';
 import DepartmentMiddlewares from '../DepartmentMiddlewares';
 import DepartmentService from '../../services/DepartmentService';
+import RedisClient from '../../helpers/RedisClient';
 
 describe('DepartmentMiddlewares', () => {
   describe('.checkDepartmentExists', () => {
@@ -12,6 +13,9 @@ describe('DepartmentMiddlewares', () => {
       res = new ResMock();
       status = jest.spyOn(res, 'status');
       json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
     });
 
     it('should respond with error if the department is not found', async () => {

@@ -1,6 +1,7 @@
 import ResMock from '../../__mocks__/ResMock';
 import CategoryService from '../../services/CategoryService';
 import CategoryMiddlewares from '../CategoryMiddlewares';
+import RedisClient from '../../helpers/RedisClient';
 
 describe('CategoryMiddlewares', () => {
   describe('.checkCategoryExists', () => {
@@ -12,6 +13,9 @@ describe('CategoryMiddlewares', () => {
       res = new ResMock();
       status = jest.spyOn(res, 'status');
       json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
     });
 
     it('should respond with error if the category is not found', async () => {

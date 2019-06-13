@@ -2,6 +2,7 @@ import ResponseHelper from '../helpers/ResponseHelper';
 import DepartmentService from '../services/DepartmentService';
 import AppError from '../helpers/AppError';
 import TypeValidations from '../helpers/TypeValidations';
+import RedisClient from '../helpers/RedisClient';
 
 export default class DepartmentMiddlewares {
   /**
@@ -12,7 +13,21 @@ export default class DepartmentMiddlewares {
    */
   static async checkDepartmentExists(req, res, next) {
     try {
-      const result = await DepartmentService.getDepartmentDetails(req.params.departmentId);
+      const redisKey = `department:${req.params.categoryId}`;
+      let result;
+
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            result = JSON.parse(data);
+          } else {
+            result = await DepartmentService.getDepartmentDetails(req.params.departmentId);
+            RedisClient.set(redisKey, JSON.stringify(result));
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
 
       if (result.length <= 0) {
         throw new AppError('DEP_02', 404, 'Department not found', ['departmentId']);

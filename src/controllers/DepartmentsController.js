@@ -1,5 +1,6 @@
 import ResponseHelper from '../helpers/ResponseHelper';
 import DepartmentService from '../services/DepartmentService';
+import RedisClient from '../helpers/RedisClient';
 
 export default class DepartmentsController {
   /**
@@ -9,22 +10,35 @@ export default class DepartmentsController {
    */
   static async getDepartmentList(req, res) {
     try {
-      const result = await DepartmentService.getDepartmentList();
+      const redisKey = `department:${req.originalUrl}`;
 
-      if (result.length <= 0) {
-        res.status(204).json({
-          success: true,
-          rows: result,
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            const cachedRes = JSON.parse(data);
+            ResponseHelper.successWithData(cachedRes, res);
+          } else {
+            const result = await DepartmentService.getDepartmentList();
+
+            if (result.length <= 0) {
+              res.status(204).json({
+                success: true,
+                rows: result,
+              });
+              return;
+            }
+
+            const newRes = {
+              rows: result,
+            };
+
+            RedisClient.set(redisKey, JSON.stringify(newRes));
+            ResponseHelper.successWithData(newRes, res);
+          }
+        })
+        .catch(error => {
+          throw error;
         });
-        return;
-      }
-
-      ResponseHelper.successWithData(
-        {
-          rows: result,
-        },
-        res,
-      );
     } catch (error) {
       ResponseHelper.serverError(error, res);
     }
