@@ -8,7 +8,9 @@ export default class CustomerService {
    * @param  {} password
    */
   static async addCustomer(name, email, password) {
-    const sql = `CALL customer_add("${name.trim()}", "${email.trim()}", "${password.trim()}");`;
+    const sql = `
+      CALL customer_add("${name.trim()}", "${email.trim()}", "${password ? password.trim() : null}");
+    `;
     const newUser = await sequelize.query(sql, { raw: false });
 
     if (!newUser.length > 0) {
@@ -35,6 +37,17 @@ export default class CustomerService {
    */
   static async getCustomer(customerId) {
     const sql = `CALL customer_get_customer(${customerId});`;
+    const user = await sequelize.query(sql, { raw: false });
+
+    return user[0];
+  }
+
+  /**
+   * @description This method gets customer information by email
+   * @param  {} email
+   */
+  static async getCustomerByEmail(email) {
+    const sql = `CALL customer_get_customer_by_email("${email}");`;
     const user = await sequelize.query(sql, { raw: false });
 
     return user[0];

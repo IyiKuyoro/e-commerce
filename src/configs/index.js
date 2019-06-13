@@ -20,6 +20,9 @@ const config = () => {
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
         REDISCLOUD_URL: process.env.REDISCLOUD_URL,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        GOOGLE_AUTH_CALLBACK_URL: process.env.GOOGLE_AUTH_CALLBACK_URL,
       };
     }
     case 'prod': {
@@ -36,6 +39,9 @@ const config = () => {
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
         REDISCLOUD_URL: process.env.REDISCLOUD_URL,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        GOOGLE_AUTH_CALLBACK_URL: process.env.GOOGLE_AUTH_CALLBACK_URL,
       };
     }
     default: {
@@ -52,6 +58,9 @@ const config = () => {
         DATABASE_HOST: process.env.DATABASE_HOST,
         DATABASE_DIALECT: process.env.DATABASE_DIALECT,
         REDISCLOUD_URL: process.env.REDISCLOUD_URL,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        GOOGLE_AUTH_CALLBACK_URL: process.env.GOOGLE_AUTH_CALLBACK_URL,
       };
     }
   }

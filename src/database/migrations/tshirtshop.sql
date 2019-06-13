@@ -122,7 +122,7 @@ CREATE TABLE `customer` (
   `customer_id`        INT           NOT NULL AUTO_INCREMENT,
   `name`               VARCHAR(50)   NOT NULL,
   `email`              VARCHAR(100)  NOT NULL,
-  `password`           VARCHAR(100)   NOT NULL,
+  `password`           VARCHAR(100),
   `credit_card`        TEXT,
   `address_1`          VARCHAR(100),
   `address_2`          VARCHAR(100),
@@ -1196,13 +1196,26 @@ CREATE PROCEDURE customer_add(IN inName VARCHAR(50),
 BEGIN
   INSERT INTO customer (name, email, password)
          VALUES (inName, inEmail, inPassword);
-  SELECT * from customer where email=inEmail;
+  SELECT customer_id, name, email,
+         address_1, address_2, city, region, postal_code, country,
+         shipping_region_id, day_phone, eve_phone, mob_phone
+  FROM customer where email=inEmail;
+END$$
+
+-- Create customer_get_customer_by_email stored procedure
+CREATE PROCEDURE customer_get_customer_by_email(IN inEmail VARCHAR(100))
+BEGIN
+  SELECT customer_id, name, email,
+         address_1, address_2, city, region, postal_code, country,
+         shipping_region_id, day_phone, eve_phone, mob_phone
+  FROM   customer
+  WHERE  email = inEmail;
 END$$
 
 -- Create customer_get_customer stored procedure
 CREATE PROCEDURE customer_get_customer(IN inCustomerId INT)
 BEGIN
-  SELECT customer_id, name, email, password, credit_card,
+  SELECT customer_id, name, email,
          address_1, address_2, city, region, postal_code, country,
          shipping_region_id, day_phone, eve_phone, mob_phone
   FROM   customer
