@@ -2,6 +2,7 @@ import ResMock from '../../__mocks__/ResMock';
 import ProductController from '../ProductsController';
 import ProductServices from '../../services/ProductServices';
 import ProductServicesMock from '../../services/__mocks__/ProductService.mocks';
+import RedisClient from '../../helpers/RedisClient';
 
 describe('ProductController', () => {
   describe('.getProducts()', () => {
@@ -13,11 +14,15 @@ describe('ProductController', () => {
       res = new ResMock();
       status = jest.spyOn(res, 'status');
       json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
     });
 
     it('should get the products in the app', async () => {
       const req = {
         query: {},
+        originalUrl: 'test',
       };
       jest.spyOn(ProductServices, 'getProducts').mockImplementation(ProductServicesMock.getProducts);
       jest.spyOn(ProductServices, 'getProductsCounts').mockImplementation(ProductServicesMock.getProductsCounts);
@@ -104,6 +109,9 @@ describe('ProductController', () => {
       res = new ResMock();
       status = jest.spyOn(res, 'status');
       json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
     });
 
     it('should get the products in the requested department', async () => {
@@ -189,6 +197,9 @@ describe('ProductController', () => {
       res = new ResMock();
       status = jest.spyOn(res, 'status');
       json = jest.spyOn(res, 'json');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
     });
 
     it('should get the products in the requested category', async () => {

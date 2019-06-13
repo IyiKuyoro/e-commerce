@@ -1,5 +1,6 @@
 import ResponseHelper from '../helpers/ResponseHelper';
 import ProductServices from '../services/ProductServices';
+import RedisClient from '../helpers/RedisClient';
 
 export default class ProductsController {
   /**
@@ -10,22 +11,37 @@ export default class ProductsController {
   static async getProducts(req, res) {
     try {
       const { page, limit, descriptionLength } = req.query;
-      const results = await ProductServices.getProducts(page, limit, descriptionLength);
-      const counts = await ProductServices.getProductsCounts();
+      const redisKey = `product:${req.originalUrl}`;
 
-      const pageMeta = {
-        page: page || 1,
-        totalPages: Math.ceil(counts / (limit || 20)),
-        pageSize: results.length,
-        totalProducts: counts,
-      };
+      await RedisClient.getAsync(redisKey)
+        .then(async result => {
+          if (result) {
+            const cachedRes = JSON.parse(result);
+            res.status(200).json(cachedRes);
+          } else {
+            const results = await ProductServices.getProducts(page, limit, descriptionLength);
+            const counts = await ProductServices.getProductsCounts();
+            const pageMeta = {
+              page: page || 1,
+              totalPages: Math.ceil(counts / (limit || 20)),
+              pageSize: results.length,
+              totalProducts: counts,
+            };
 
-      res.status(200).json({
-        success: true,
-        count: results.length,
-        pageMeta,
-        rows: results,
-      });
+            const newRes = {
+              success: true,
+              count: results.length,
+              pageMeta,
+              rows: results,
+            };
+
+            RedisClient.set(redisKey, JSON.stringify(newRes));
+            res.status(200).json(newRes);
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
     } catch (error) {
       ResponseHelper.serverError(error, res);
     }
@@ -40,34 +56,46 @@ export default class ProductsController {
     try {
       const { page, limit, descriptionLength } = req.query;
       const { departmentId } = req.params;
+      const redisKey = `product:${req.originalUrl}`;
 
-      const results = await ProductServices.getProductsByDepartment(departmentId, page, limit, descriptionLength);
-      const counts = await ProductServices.countProductsByDepartment(departmentId);
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            const cachedRes = JSON.parse(data);
+            ResponseHelper.successWithData(cachedRes, res);
+          } else {
+            const results = await ProductServices.getProductsByDepartment(departmentId, page, limit, descriptionLength);
+            const counts = await ProductServices.countProductsByDepartment(departmentId);
 
-      const pageMeta = {
-        page: page || 1,
-        totalPages: Math.ceil(counts / (limit || 20)),
-        pageSize: results.length,
-        totalProducts: counts,
-      };
+            const pageMeta = {
+              page: page || 1,
+              totalPages: Math.ceil(counts / (limit || 20)),
+              pageSize: results.length,
+              totalProducts: counts,
+            };
 
-      if (results.length <= 0) {
-        res.status(204).json({
-          success: true,
-          pageMeta,
-          rows: [],
+            if (results.length <= 0) {
+              res.status(204).json({
+                success: true,
+                pageMeta,
+                rows: [],
+              });
+              return;
+            }
+
+            const newRes = {
+              count: results.length,
+              pageMeta,
+              rows: results,
+            };
+
+            RedisClient.set(redisKey, JSON.stringify(newRes));
+            ResponseHelper.successWithData(newRes, res);
+          }
+        })
+        .catch(error => {
+          throw error;
         });
-        return;
-      }
-
-      ResponseHelper.successWithData(
-        {
-          count: results.length,
-          pageMeta,
-          rows: results,
-        },
-        res,
-      );
     } catch (error) {
       ResponseHelper.serverError(error, res);
     }
@@ -82,34 +110,46 @@ export default class ProductsController {
     try {
       const { page, limit, descriptionLength } = req.query;
       const { categoryId } = req.params;
+      const redisKey = `product:${req.originalUrl}`;
 
-      const results = await ProductServices.getProductsByCategory(categoryId, page, limit, descriptionLength);
-      const counts = await ProductServices.countProductsByCategory(categoryId);
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            const cachedRes = JSON.parse(data);
+            ResponseHelper.successWithData(cachedRes, res);
+          } else {
+            const results = await ProductServices.getProductsByCategory(categoryId, page, limit, descriptionLength);
+            const counts = await ProductServices.countProductsByCategory(categoryId);
 
-      const pageMeta = {
-        page: page || 1,
-        totalPages: Math.ceil(counts / (limit || 20)),
-        pageSize: results.length,
-        totalProducts: counts,
-      };
+            const pageMeta = {
+              page: page || 1,
+              totalPages: Math.ceil(counts / (limit || 20)),
+              pageSize: results.length,
+              totalProducts: counts,
+            };
 
-      if (results.length <= 0) {
-        res.status(204).json({
-          success: true,
-          pageMeta,
-          rows: [],
+            if (results.length <= 0) {
+              res.status(204).json({
+                success: true,
+                pageMeta,
+                rows: [],
+              });
+              return;
+            }
+
+            const newRes = {
+              count: results.length,
+              pageMeta,
+              rows: results,
+            };
+
+            RedisClient.set(redisKey, JSON.stringify(newRes));
+            ResponseHelper.successWithData(newRes, res);
+          }
+        })
+        .catch(error => {
+          throw error;
         });
-        return;
-      }
-
-      ResponseHelper.successWithData(
-        {
-          count: results.length,
-          pageMeta,
-          rows: results,
-        },
-        res,
-      );
     } catch (error) {
       ResponseHelper.serverError(error, res);
     }

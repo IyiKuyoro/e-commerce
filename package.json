@@ -1,7 +1,7 @@
 {
   "name": "e-commerce",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple e-commerce site",
   "main": "index.js",
   "scripts": {
     "build": "chmod u+x ./scripts/build.sh && ./scripts/build.sh",
@@ -23,13 +23,16 @@
   },
   "homepage": "https://github.com/IyiKuyoro/e-commerce#readme",
   "dependencies": {
-    "cors": "^2.8.5",
     "bcrypt": "^3.0.6",
+    "bluebird": "^3.5.5",
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^1.6.5",
+    "node-cron": "^2.0.3",
+    "redis": "^2.8.0",
     "sequelize": "^5.8.7",
     "winston": "^3.2.1",
     "winston-loggly-bulk": "^3.0.1"

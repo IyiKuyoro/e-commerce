@@ -2,6 +2,7 @@ import ResponseHelper from '../helpers/ResponseHelper';
 import TypeValidations from '../helpers/TypeValidations';
 import AppError from '../helpers/AppError';
 import CategoryService from '../services/CategoryService';
+import RedisClient from '../helpers/RedisClient';
 
 export default class CategoryMiddlewares {
   /**
@@ -36,7 +37,21 @@ export default class CategoryMiddlewares {
    */
   static async checkCategoryExists(req, res, next) {
     try {
-      const result = await CategoryService.getCategoryDetails(req.params.categoryId);
+      const redisKey = `category:${req.params.categoryId}`;
+      let result;
+
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            result = JSON.parse(data);
+          } else {
+            result = await CategoryService.getCategoryDetails(req.params.categoryId);
+            RedisClient.set(redisKey, JSON.stringify(result));
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
 
       if (result.length <= 0) {
         throw new AppError('CAT_01', 404, 'Category not found', ['categoryId']);
