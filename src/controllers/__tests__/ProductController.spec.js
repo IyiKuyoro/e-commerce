@@ -332,4 +332,49 @@ describe('ProductController', () => {
       });
     });
   });
+
+  describe('.searchProduct', () => {
+    let res;
+    let status;
+
+    beforeEach(() => {
+      res = new ResMock();
+      status = jest.spyOn(res, 'status');
+      jest.spyOn(RedisClient, 'get').mockImplementation((err, r) => {
+        r(null);
+      });
+      jest.spyOn(RedisClient, 'set').mockImplementation(() => {});
+    });
+
+    it('should respond with a list of products', async () => {
+      const req = {
+        query: {},
+        originalUrl: 'test',
+      };
+
+      jest.spyOn(ProductServices, 'searchProduct').mockImplementation(ProductServicesMock.getProducts);
+      jest.spyOn(ProductServices, 'getSearchProductCount').mockImplementation(ProductServicesMock.getProductsCounts);
+
+      await ProductController.searchProduct(req, res);
+
+      expect(status).toHaveBeenCalledWith(200);
+    });
+
+    it('should respond with a 500 error message', async () => {
+      const req = {
+        query: {
+          queryString: 'prod',
+        },
+      };
+
+      jest.spyOn(ProductServices, 'searchProduct').mockImplementation(async () => {
+        throw new Error('Some error');
+      });
+      jest.spyOn(ProductServices, 'getSearchProductCount').mockImplementation(ProductServicesMock.getProductsCounts);
+
+      await ProductController.searchProduct(req, res);
+
+      expect(status).toHaveBeenCalledWith(500);
+    });
+  });
 });

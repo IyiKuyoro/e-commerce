@@ -10,6 +10,17 @@ const productRouter = Router();
 // Get all products
 productRouter.get('/', ProductMiddlewares.validateParams, ProductsController.getProducts);
 
+// Search for a product
+productRouter.get(
+  '/search',
+  ProductMiddlewares.validateParams,
+  ProductMiddlewares.validateQueryString,
+  ProductsController.searchProduct,
+);
+
+// Get a specific product
+productRouter.get('/:productId', ProductMiddlewares.validateProductId, ProductsController.getProductDetails);
+
 // Get products by departments
 productRouter.get(
   '/inDepartment/:departmentId',
@@ -27,8 +38,5 @@ productRouter.get(
   CategoryMiddlewares.checkCategoryExists,
   ProductsController.getProductsByCategory,
 );
-
-// Get a specific product
-productRouter.get('/:productId', ProductMiddlewares.validateProductId, ProductsController.getProductDetails);
 
 export default productRouter;

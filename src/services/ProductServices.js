@@ -106,4 +106,37 @@ export default class ProductServices {
 
     return result[0];
   }
+
+  /**
+   * @description Get products in searched group
+   * @param  {} searchTerm
+   * @param  {} descriptionLength=200
+   * @param  {} limit=10
+   * @param  {} page=1
+   */
+  static async searchProduct(searchTerm, allWords = 'on', descriptionLength = 200, limit = 10, page = 1) {
+    const startAt = limit * (page - 1);
+
+    const sql = `
+      CALL catalog_search("${searchTerm}", "${allWords}", ${descriptionLength}, ${limit}, ${startAt});
+    `;
+
+    const result = await sequelize.query(sql, { raw: true });
+
+    return result;
+  }
+
+  /**
+   * @description Get products in searched group
+   * @param  {} searchTerm
+   */
+  static async getSearchProductCount(searchTerm, allWords = 'on') {
+    const sql = `
+      CALL catalog_count_search_result("${searchTerm}", "${allWords}");
+    `;
+
+    const result = await sequelize.query(sql, { raw: true });
+
+    return result[0]['count(*)'];
+  }
 }

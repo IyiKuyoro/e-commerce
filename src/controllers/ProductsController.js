@@ -189,4 +189,48 @@ export default class ProductsController {
       ResponseHelper.notFoundError(error, {}, res);
     }
   }
+
+  /**
+   * @description Search products in group
+   * @param  {Object} req The http request object
+   * @param  {Object} res The http response object
+   */
+  static async searchProduct(req, res) {
+    try {
+      const { queryString, allWords, page, limit, descriptionLength } = req.query;
+      const redisKey = `product:${req.originalUrl}`;
+
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            const cachedRes = JSON.parse(data);
+            res.status(200).json(cachedRes);
+          } else {
+            const result = await ProductServices.searchProduct(queryString, allWords, descriptionLength, limit, page);
+            const counts = await ProductServices.getSearchProductCount(queryString, allWords);
+            const pageMeta = {
+              page: page || 1,
+              totalPages: Math.ceil(counts / (limit || 20)),
+              pageSize: result.length,
+              totalProducts: counts,
+            };
+
+            const newRes = {
+              success: true,
+              count: result.length,
+              pageMeta,
+              rows: result,
+            };
+
+            RedisClient.set(redisKey, JSON.stringify(newRes));
+            res.status(200).json(newRes);
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
+    } catch (error) {
+      ResponseHelper.notFoundError(error, {}, res);
+    }
+  }
 }

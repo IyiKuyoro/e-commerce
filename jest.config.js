@@ -11,6 +11,7 @@ module.exports = {
     '!<rootDir>/src/index.js',
     '!<rootDir>/src/configs/*.js',
     '!<rootDir>/src/helpers/logger.js',
+    '!<rootDir>/src/controllers/GoogleAuthController.js',
     '!**/node_modules/**',
   ],
   coverageDirectory: 'coverage', // The directory where Jest should output its coverage files
@@ -25,14 +26,6 @@ module.exports = {
     'clover',
     'text-summary',
   ], // A list of reporter names that Jest uses when writing coverage reports
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 90,
-      lines: 95,
-      statements: -10,
-    },
-  }, // An object that configures minimum threshold enforcement for coverage results
   dependencyExtractor: null, // A path to a custom dependency extractor
   moduleDirectories: [
     'node_modules',

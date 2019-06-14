@@ -35,4 +35,30 @@ export default class ProductMiddlewares {
       ResponseHelper.parametersError(error, res);
     }
   }
+
+  /**
+   * @description Validate the query string for a search request
+   * @param  {} req
+   * @param  {} res
+   * @param  {} next
+   */
+  static validateQueryString(req, res, next) {
+    try {
+      if (!req.query.queryString) {
+        throw new AppError('POD_04', 400, 'Please provide a queryString', ['queryString']);
+      }
+
+      if (/^[+=!@#$%^&*()/]+$/.test(req.query.queryString)) {
+        throw new AppError('POD_03', 400, 'The queryString provided is not valid', ['queryString']);
+      }
+
+      if (req.query.allWords && ['on', 'off'].indexOf(req.query.allWords.toLowerCase().trim()) < 0) {
+        throw new AppError('POD_05', 400, 'allWords can only be on or off', ['allWords']);
+      }
+
+      next();
+    } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
 }
