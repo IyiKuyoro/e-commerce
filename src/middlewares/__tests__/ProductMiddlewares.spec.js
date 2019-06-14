@@ -88,4 +88,71 @@ describe('ProductMiddlewares', () => {
       expect(next).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('validateQueryString', () => {
+    let res;
+    let status;
+    let json;
+
+    beforeEach(() => {
+      res = new ResMock();
+      status = jest.spyOn(res, 'status');
+      json = jest.spyOn(res, 'json');
+    });
+
+    it('should send an error response', () => {
+      const req = {
+        query: {
+          queryString: ')(',
+        },
+      };
+      const next = jest.fn();
+
+      ProductMiddlewares.validateQueryString(req, res, next);
+
+      expect(status).toHaveBeenCalledWith(400);
+      expect(json).toHaveBeenCalledWith({
+        success: false,
+        error: {
+          status: 400,
+          code: 'POD_03',
+          message: 'The queryString provided is not valid',
+          fields: ['queryString'],
+        },
+      });
+    });
+
+    it('should send error if no query string is provided', () => {
+      const req = {
+        query: {},
+      };
+      const next = jest.fn();
+
+      ProductMiddlewares.validateQueryString(req, res, next);
+
+      expect(status).toHaveBeenCalledWith(400);
+      expect(json).toHaveBeenCalledWith({
+        success: false,
+        error: {
+          status: 400,
+          code: 'POD_04',
+          message: 'Please provide a queryString',
+          fields: ['queryString'],
+        },
+      });
+    });
+
+    it('should call the next middleware', () => {
+      const req = {
+        query: {
+          queryString: 'string',
+        },
+      };
+      const next = jest.fn();
+
+      ProductMiddlewares.validateQueryString(req, res, next);
+
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+  });
 });

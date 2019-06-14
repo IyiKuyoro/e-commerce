@@ -31,3 +31,6 @@ DEP_03 - Department ID not passed.
 
 POD_01 - No product with this id.
 POD_02 - The id is not a number.
+POD_03 - Search text is not valid
+POD_04 - Search text is required to search for a product
+POD_05 - All words can only be on or off
