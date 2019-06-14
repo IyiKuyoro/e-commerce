@@ -4,6 +4,7 @@ import cors from 'cors';
 import config from './configs';
 import logger from './helpers/logger';
 import appRouter from './router';
+import passportSetup from './configs/passportConfig';
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passportSetup.initialize());
+app.use(passportSetup.session());
 
 app.use('/api/v1/', appRouter);
 
