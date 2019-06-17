@@ -14,6 +14,9 @@ Here is a documentation of the errors that can occur at runtime.
 - USR_08 - this is an invalid Credit Card.
 - USR_09 - The Shipping Region ID is not number
 - USR_10 - The param(s) provided are invalid.
+- USR_11 - No shopping cartId provided
+- USR_12 - Item ID is not a number
+- USR_13 - Item ID not provided
 
 ## Category's Errors
 
