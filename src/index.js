@@ -9,13 +9,29 @@ import passportSetup from './configs/passportConfig';
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:4200',
+};
+
+app.use(cors(corsOptions));
 app.use((req, res, next) => {
+  res.set({
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Header-Allow-Methods': 'GET, POST, DELETE',
+  });
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
+app.use((req, res, next) => {
+  if (req.headers['content-type'] === 'text/plain') {
+    req.body = JSON.parse(req.body);
+  }
+
+  next();
+});
 app.use(cookieParser());
 app.use(passportSetup.initialize());
 app.use(passportSetup.session());

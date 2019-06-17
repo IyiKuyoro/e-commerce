@@ -71,6 +71,24 @@ export default class ShoppingCartMiddleware {
     }
   }
 
+  static validateItemQuantity(req, res, next) {
+    try {
+      const { body } = req;
+
+      if (!body.quantity && body.quantity !== 0) {
+        throw new AppError('USR_13', 400, 'Quantity not provided', ['quantity']);
+      }
+
+      if (!/^[0-9]+$/.test(body.quantity)) {
+        throw new AppError('USR_12', 400, 'item quantity is not a number');
+      }
+
+      next();
+    } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
+
   static checkId(req) {
     if (!req.body.productId) {
       throw new AppError('POD_01', 400, 'Please provide a productId');

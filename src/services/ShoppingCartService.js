@@ -64,4 +64,33 @@ export default class ShoppingCartService {
 
     return result;
   }
+
+  static async getTotalAmount(cartId) {
+    let result = 0;
+
+    const products = await this.getProductsInCartWithCache(cartId);
+
+    products.forEach(product => {
+      result += +product.subtotal;
+    });
+
+    return result;
+  }
+
+  /**
+   * @description Update item quantity
+   * @param  {} cartId
+   * @param  {} itemId
+   * @param  {} quantity
+   */
+  static async updateItem(cartId, itemId, quantity) {
+    const url = `CALL shopping_cart_update("${cartId}", ${itemId}, ${quantity})`;
+
+    await sequelize.query(url, { raw: true });
+
+    const result = await this.getProductsInCart(cartId);
+    await RedisClient.set(`cart:${cartId}`, JSON.stringify(result));
+
+    return result;
+  }
 }

@@ -1006,14 +1006,14 @@ BEGIN
 END$$
 
 -- Create shopping_cart_update_product stored procedure
-CREATE PROCEDURE shopping_cart_update(IN inItemId INT, IN inQuantity INT)
+CREATE PROCEDURE shopping_cart_update(IN inCartId CHAR(32), IN inItemId INT, IN inQuantity INT)
 BEGIN
   IF inQuantity > 0 THEN
     UPDATE shopping_cart
     SET    quantity = inQuantity, added_on = NOW()
-    WHERE  item_id = inItemId;
+    WHERE  item_id = inItemId AND cart_id = inCartId;
   ELSE
-    CALL shopping_cart_remove_product(inItemId);
+    CALL shopping_cart_remove_product(inItemId, inCartId);
   END IF;
 END$$
 
