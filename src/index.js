@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import config from './configs';
 import logger from './helpers/logger';
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(passportSetup.initialize());
 app.use(passportSetup.session());
 
