@@ -52,4 +52,30 @@ export default class CustomerService {
 
     return user[0];
   }
+
+  static async updateAddress(user, addressInfo) {
+    let sql;
+    if (addressInfo.address2) {
+      sql = `
+        CALL customer_update_address(${
+          user.id
+        }, "${addressInfo.address1.trim()}", "${addressInfo.address2.trim()}", "${addressInfo.city.trim()}", "${addressInfo.region.trim()}", "${addressInfo.postalCode.trim()}", "${addressInfo.country.trim()}", ${
+        addressInfo.shippingRegionId
+      })
+      `;
+    } else {
+      sql = `
+        CALL customer_update_address(${
+          user.id
+        }, "${addressInfo.address1.trim()}", null, "${addressInfo.city.trim()}", "${addressInfo.region.trim()}", "${addressInfo.postalCode.trim()}", "${addressInfo.country.trim()}", ${
+        addressInfo.shippingRegionId
+      })
+      `;
+    }
+
+    await sequelize.query(sql, { raw: false });
+    const result = await this.getCustomerByEmail(user.email);
+
+    return result;
+  }
 }

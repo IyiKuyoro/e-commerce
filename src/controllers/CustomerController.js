@@ -5,6 +5,7 @@ import CustomerService from '../services/CustomerService';
 import { tokenGenerator } from '../helpers/helperFunctions';
 import config from '../configs';
 import AppError from '../helpers/AppError';
+import RedisClient from '../helpers/RedisClient';
 
 export default class CustomerController {
   /**
@@ -120,6 +121,59 @@ export default class CustomerController {
       ResponseHelper.successWithData(payload, res);
     } catch (error) {
       ResponseHelper.parametersError(error, res);
+    }
+  }
+
+  static async updateCustomerAddress(req, res) {
+    try {
+      const customer = await CustomerService.updateAddress(req.userData, req.body);
+
+      const payload = {
+        customer_id: customer.customer_id,
+        name: customer.name,
+        email: customer.email,
+        address_1: customer.address_1,
+        address_2: customer.address_2,
+        city: customer.city,
+        region: customer.region,
+        postal_code: customer.postal_code,
+        country: customer.country,
+        shipping_region_id: customer.shipping_region_id,
+        day_phone: customer.day_phone,
+        eve_phone: customer.eve_phone,
+        mob_phone: customer.mob_phone,
+        credit_card: customer.credit_card,
+      };
+
+      const redisKey = `customer:${customer.customer_id}`;
+      RedisClient.set(redisKey, JSON.stringify(payload));
+
+      ResponseHelper.successWithData(payload, res);
+    } catch (error) {
+      ResponseHelper.serverError(error, res);
+    }
+  }
+
+  /**
+   * @description Get logged in customer info
+   * @param  {} req
+   * @param  {} res
+   */
+  static async getLoggedInCustomerInfo(req, res) {
+    try {
+      const redisKey = `customer:${req.userData.id}`;
+
+      await RedisClient.getAsync(redisKey).then(async data => {
+        if (data) {
+          ResponseHelper.successWithData(JSON.parse(data), res);
+        } else {
+          const user = await CustomerService.getCustomerByEmail(req.userData.email);
+          RedisClient.set(redisKey, JSON.stringify(user));
+          ResponseHelper.successWithData(user, res);
+        }
+      });
+    } catch (error) {
+      ResponseHelper.serverError(error, res);
     }
   }
 }

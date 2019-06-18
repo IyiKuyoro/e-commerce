@@ -10,7 +10,7 @@ import passportSetup from './configs/passportConfig';
 const app = express();
 
 const corsOptions = {
-  origin: 'https://iyikuyoro-commerce.netlify.com',
+  origin: 'http://localhost:4200',
 };
 
 app.use(cors(corsOptions));

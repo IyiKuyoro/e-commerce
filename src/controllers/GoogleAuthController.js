@@ -1,3 +1,5 @@
+import { tokenGenerator } from '../helpers/helperFunctions';
+
 export default class GoogleAuthController {
   /**
    * @description Send error response on google auth
@@ -22,6 +24,15 @@ export default class GoogleAuthController {
       customer: {
         schema: req.user,
       },
+      accessToken: tokenGenerator(
+        {
+          id: req.user.customer_id,
+          name: req.user.name,
+          email: req.user.email,
+        },
+        '24h',
+      ),
+      expiresIn: '24h',
     });
   }
 }

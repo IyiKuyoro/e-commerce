@@ -1,6 +1,9 @@
+import jwt from 'jsonwebtoken';
+
+import config from '../configs';
 import ResponseHelper from '../helpers/ResponseHelper';
 import AppError from '../helpers/AppError';
-import { checkProps } from '../helpers/helperFunctions';
+import { checkProps, validateStrings } from '../helpers/helperFunctions';
 import CustomerService from '../services/CustomerService';
 
 class Helpers {
@@ -23,9 +26,9 @@ class Helpers {
    * @param  {string} name
    */
   static validateName(name) {
-    const emailRegex = /^[^+=!@#$%^&*()/0-9]+$/;
+    const nameRegex = /^[^+=!@#$%^&*()/0-9]+$/;
 
-    if (!emailRegex.test(name)) {
+    if (!nameRegex.test(name)) {
       return false;
     }
 
@@ -144,6 +147,72 @@ export default class CustomerMiddlewares {
 
       next();
     } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
+
+  /**
+   * @description Validate required address params
+   * @param  {} req
+   * @param  {} res
+   * @param  {} next
+   */
+  static validateRequiredAddressParams(req, res, next) {
+    try {
+      const missingErrors = checkProps(
+        req.body,
+        'address1',
+        'city',
+        'region',
+        'postalCode',
+        'country',
+        'shippingRegionId',
+      );
+      const typeErrors = validateStrings(
+        req.body,
+        'address1',
+        'address2',
+        'city',
+        'region',
+        'postalCode',
+        'country',
+        'shippingRegionId',
+      );
+
+      if (missingErrors.length > 0) {
+        throw new AppError('USR_14', 400, 'Some required parameters are missing', missingErrors);
+      }
+
+      if (typeErrors.length > 0) {
+        throw new AppError('USR_15', 400, 'Parameters must not match special characters +=!@#$%^&*()', typeErrors);
+      }
+
+      next();
+    } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
+
+  /**
+   * @description Ensure that customer id is correct
+   * @param  {} req
+   * @param  {} res
+   * @param  {} next
+   */
+  static validateCustomerToken(req, res, next) {
+    try {
+      if (req.headers.authorization.indexOf('Bearer ') < 0) {
+        throw new Error();
+      }
+
+      const token = req.headers.authorization.replace('Bearer ', '');
+      req.userData = jwt.verify(token, config.SECRETE);
+
+      next();
+    } catch (error) {
+      error.statusCode = 401;
+      error.code = 'USR_16';
+      error.message = 'Authorization failed.';
       ResponseHelper.parametersError(error, res);
     }
   }
