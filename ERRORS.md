@@ -20,6 +20,7 @@ Here is a documentation of the errors that can occur at runtime.
 - USR_14 - Missing required parameters
 - USR_15 - Invalid parameter parameters. No special characters.
 - USR_16 - Unauthorized user
+- USR_17 - Resource not found
 
 ## Category's Errors
 
