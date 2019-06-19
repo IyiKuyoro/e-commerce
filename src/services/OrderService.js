@@ -8,4 +8,15 @@ export default class OrderService {
 
     return result;
   }
+
+  /**
+   * @description Get a short details of an order
+   */
+  static async getShortDetails(orderId) {
+    const sql = `CALL orders_get_order_short_details(${orderId})`;
+
+    const result = await sequelize.query(sql, { raw: true });
+
+    return result[0];
+  }
 }
