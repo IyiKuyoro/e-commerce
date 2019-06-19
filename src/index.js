@@ -10,7 +10,11 @@ import passportSetup from './configs/passportConfig';
 const app = express();
 
 const corsOptions = {
-  origin: 'https://iyikuyoro-commerce.netlify.com',
+  origin: 'http://localhost:4200',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: true,
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
@@ -19,7 +23,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Credentials': 'true',
     'Access-Header-Allow-Methods': 'GET, POST, DELETE',
   });
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 app.use(express.json());

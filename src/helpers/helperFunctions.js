@@ -10,6 +10,7 @@ import config from '../configs';
 export function tokenGenerator(payload, duration) {
   return jwt.sign(payload, config.SECRETE, { expiresIn: duration });
 }
+
 /**
  * @description This method checks if an object contains a number of properties
  * @param  {object} obj The object to be searched
@@ -26,4 +27,32 @@ export function checkProps(obj, ...params) {
   });
 
   return missingParams;
+}
+
+export function validateStrings(obj, ...params) {
+  const errors = [];
+
+  params.forEach(property => {
+    if (obj[property] && obj[property].trim()) {
+      if (/^[+=!@#$%^&*()]+$/.test(obj[property])) {
+        errors.push(property);
+      }
+    }
+  });
+
+  return errors;
+}
+
+export function validateNumbers(obj, ...params) {
+  const errors = [];
+
+  params.forEach(property => {
+    if (obj[property]) {
+      if (!/^0*?[1-9]+[0-9]*$/.test(obj[property])) {
+        errors.push(property);
+      }
+    }
+  });
+
+  return errors;
 }

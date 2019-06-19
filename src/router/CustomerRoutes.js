@@ -19,4 +19,13 @@ customerRouter.post(
   CustomerControllers.loginCustomer,
 );
 
+customerRouter.put(
+  '/address',
+  CustomerMiddlewares.validateCustomerToken,
+  CustomerMiddlewares.validateRequiredAddressParams,
+  CustomerControllers.updateCustomerAddress,
+);
+
+customerRouter.get('/', CustomerMiddlewares.validateCustomerToken, CustomerControllers.getLoggedInCustomerInfo);
+
 export default customerRouter;
