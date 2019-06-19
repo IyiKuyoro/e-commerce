@@ -19,4 +19,10 @@ export default class OrderService {
 
     return result[0];
   }
+
+  static async payOrder(orderId) {
+    const sql = `CALL orders_update_status(${orderId}, 1)`;
+
+    await sequelize.query(sql, { raw: true });
+  }
 }

@@ -9,6 +9,7 @@ import shoppingCart from './shoppingCartRoutes';
 import shippingRouter from './shippingRouter';
 import taxRouter from './taxRouter';
 import orderRouter from './orderRouter';
+import stripeRouter from './stripeRouter';
 
 const appRouter = Router();
 
@@ -21,5 +22,6 @@ appRouter.use('/shoppingcart', shoppingCart);
 appRouter.use('/shipping', shippingRouter);
 appRouter.use('/tax', taxRouter);
 appRouter.use('/orders', orderRouter);
+appRouter.use('/stripe', stripeRouter);
 
 export default appRouter;
