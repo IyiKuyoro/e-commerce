@@ -10,7 +10,7 @@ import passportSetup from './configs/passportConfig';
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: config.FRONTEND_URL,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: ['Content-Type', 'Authorization'],
   preflightContinue: true,

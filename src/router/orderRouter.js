@@ -18,4 +18,12 @@ orderRouter.post(
   OrderController.createNewOrder,
 );
 
+// Get order short details
+orderRouter.get(
+  '/shortDetail/:orderId',
+  CustomerMiddleware.validateCustomerToken,
+  OrderMiddleware.validateOrderId,
+  OrderController.getShortDetails,
+);
+
 export default orderRouter;

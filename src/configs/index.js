@@ -8,6 +8,8 @@ const config = () => {
   switch (env) {
     case 'test': {
       return {
+        FRONTEND_URL: process.env.FRONTEND_URL,
+        STRIPE_SK: 'xxxxxxx',
         ENV: 'test',
         PORT: process.env.PORT,
         SECRETE: process.env.SECRETE,
@@ -27,6 +29,8 @@ const config = () => {
     }
     case 'prod': {
       return {
+        FRONTEND_URL: process.env.FRONTEND_URL,
+        STRIPE_SK: process.env.STRIPE_SK,
         ENV: 'production',
         PORT: process.env.PORT,
         SECRETE: process.env.SECRETE,
@@ -46,6 +50,8 @@ const config = () => {
     }
     default: {
       return {
+        FRONTEND_URL: process.env.FRONTEND_URL,
+        STRIPE_SK: process.env.STRIPE_SK,
         ENV: 'development',
         PORT: process.env.PORT,
         SECRETE: process.env.SECRETE,

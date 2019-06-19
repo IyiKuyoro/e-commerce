@@ -22,4 +22,24 @@ export default class OrderMiddleware {
       ResponseHelper.parametersError(error, res);
     }
   }
+
+  /**
+   * @description get order details
+   * @param  {} req
+   * @param  {} res
+   * @param  {} next
+   */
+  static validateOrderId(req, res, next) {
+    try {
+      const errors = validateNumbers(req.params, 'orderId');
+
+      if (errors.length > 0) {
+        throw new AppError('USR_15', 400, 'Parameter must be positive integers', errors);
+      }
+
+      next();
+    } catch (error) {
+      ResponseHelper.parametersError(error, res);
+    }
+  }
 }

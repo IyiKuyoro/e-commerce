@@ -87,4 +87,18 @@ export default class ResponseHelper {
       });
     }
   }
+
+  static paymentError(error, res) {
+    if (/^4[0-9]+$/.test(error.statusCode)) {
+      res.status(error.statusCode).json({
+        success: false,
+        error: {
+          status: error.statusCode,
+          message: error.message,
+        },
+      });
+    } else {
+      this.serverError(error, res);
+    }
+  }
 }
