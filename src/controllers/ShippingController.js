@@ -43,7 +43,7 @@ export default class ShippingController {
           throw error;
         });
     } catch (error) {
-      ResponseHelper.notFoundError(error, res);
+      ResponseHelper.notFoundError(error, {}, res);
     }
   }
 }

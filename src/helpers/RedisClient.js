@@ -17,5 +17,8 @@ cron.schedule('30 * * * *', () => {
     Logger.info('Cache cleared');
   });
 });
+client.flushdb(() => {
+  Logger.info('Cache cleared');
+});
 
 export default client;
