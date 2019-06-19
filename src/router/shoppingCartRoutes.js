@@ -19,7 +19,7 @@ cartRouter.get('/generateUniqueId', ShoppingCartController.generateCartId);
 cartRouter.get('/', ShoppingCartMiddleware.validateShoppingCartId, ShoppingCartController.getCartProducts);
 
 // Remove a product from the shopping cart
-cartRouter.post(
+cartRouter.delete(
   '/removeProduct/:itemId',
   ShoppingCartMiddleware.validateShoppingCartId,
   ShoppingCartMiddleware.validateItemId,
@@ -30,7 +30,7 @@ cartRouter.post(
 cartRouter.get('/totalAmount', ShoppingCartMiddleware.validateShoppingCartId, ShoppingCartController.getTotalAmount);
 
 // Update a shopping cart item
-cartRouter.post(
+cartRouter.put(
   '/update/:itemId',
   ShoppingCartMiddleware.validateShoppingCartId,
   ShoppingCartMiddleware.validateItemId,

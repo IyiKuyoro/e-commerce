@@ -8,6 +8,7 @@ import googleAuthRouter from './googleAuthRouter';
 import shoppingCart from './shoppingCartRoutes';
 import shippingRouter from './shippingRouter';
 import taxRouter from './taxRouter';
+import orderRouter from './orderRouter';
 
 const appRouter = Router();
 
@@ -19,5 +20,6 @@ appRouter.use('/auth', googleAuthRouter);
 appRouter.use('/shoppingcart', shoppingCart);
 appRouter.use('/shipping', shippingRouter);
 appRouter.use('/tax', taxRouter);
+appRouter.use('/orders', orderRouter);
 
 export default appRouter;

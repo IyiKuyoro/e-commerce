@@ -42,3 +42,17 @@ export function validateStrings(obj, ...params) {
 
   return errors;
 }
+
+export function validateNumbers(obj, ...params) {
+  const errors = [];
+
+  params.forEach(property => {
+    if (obj[property]) {
+      if (!/^0*?[1-9]+[0-9]*$/.test(obj[property])) {
+        errors.push(property);
+      }
+    }
+  });
+
+  return errors;
+}
