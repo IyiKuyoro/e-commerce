@@ -26,4 +26,7 @@ orderRouter.get(
   OrderController.getShortDetails,
 );
 
+// Get orders for a customer
+orderRouter.get('/inCustomer', CustomerMiddleware.validateCustomerToken, OrderController.getOrderByUser);
+
 export default orderRouter;

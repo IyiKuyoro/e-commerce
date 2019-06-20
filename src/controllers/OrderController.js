@@ -14,6 +14,7 @@ export default class OrderController {
       );
 
       RedisClient.del(`cart:${req.cookies.cartId}`);
+      RedisClient.del(`ordersFor:${req.userData.id}`);
 
       res.clearCookie('cartId');
       ResponseHelper.successWithData(result[0], res);
@@ -34,10 +35,11 @@ export default class OrderController {
       await RedisClient.getAsync(redisKey)
         .then(async data => {
           if (data) {
-            if (data.customer_id !== req.userData.id) {
+            const parsedData = JSON.parse(data);
+            if (parsedData.customer_id !== req.userData.id) {
               throw new AppError('USR_17', 404, 'Order not found');
             }
-            ResponseHelper.successWithData({ order: JSON.parse(data) }, res);
+            ResponseHelper.successWithData({ order: parsedData }, res);
           } else {
             const result = await OrderService.getShortDetails(req.params.orderId);
             if (!result || result.customer_id !== req.userData.id) {
@@ -52,6 +54,34 @@ export default class OrderController {
         });
     } catch (error) {
       ResponseHelper.notFoundError(error, {}, res);
+    }
+  }
+
+  /**
+   * @description Get orders for a customer
+   * @param  {} req
+   * @param  {} res
+   */
+  static async getOrderByUser(req, res) {
+    try {
+      const redisKey = `ordersFor:${req.userData.id}`;
+
+      await RedisClient.getAsync(redisKey)
+        .then(async data => {
+          if (data) {
+            ResponseHelper.successWithData({ orders: JSON.parse(data) }, res);
+          } else {
+            const result = await OrderService.getOrders(req.userData.id);
+
+            RedisClient.set(redisKey, JSON.stringify(result));
+            ResponseHelper.successWithData({ orders: result }, res);
+          }
+        })
+        .catch(error => {
+          throw error;
+        });
+    } catch (error) {
+      ResponseHelper.serverError(error, res);
     }
   }
 }

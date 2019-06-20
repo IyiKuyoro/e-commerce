@@ -25,4 +25,16 @@ export default class OrderService {
 
     await sequelize.query(sql, { raw: true });
   }
+
+  /**
+   * @description get customer order's
+   * @param  {number} customerId
+   */
+  static async getOrders(customerId) {
+    const sql = `CALL orders_get_by_customer_id(${customerId})`;
+
+    const result = await sequelize.query(sql, { raw: true });
+
+    return result;
+  }
 }
