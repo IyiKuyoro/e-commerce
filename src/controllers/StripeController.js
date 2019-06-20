@@ -58,6 +58,7 @@ export default class StripeController {
 
       if (stripePayload.success) {
         RedisClient.del(`order:${req.params.orderId}`);
+        RedisClient.del(`ordersFor:${req.userData.id}`);
         await Helper.changeOrderStatusToPaid(req.params.orderId);
         Mailer.sendOrderCompletionMail(
           req.userData.email,
