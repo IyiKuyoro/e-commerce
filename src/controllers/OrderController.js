@@ -34,6 +34,9 @@ export default class OrderController {
       await RedisClient.getAsync(redisKey)
         .then(async data => {
           if (data) {
+            if (data.customer_id !== req.userData.id) {
+              throw new AppError('USR_17', 404, 'Order not found');
+            }
             ResponseHelper.successWithData({ order: JSON.parse(data) }, res);
           } else {
             const result = await OrderService.getShortDetails(req.params.orderId);
