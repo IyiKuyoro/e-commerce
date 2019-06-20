@@ -2,6 +2,7 @@ import ResponseHelper from '../helpers/ResponseHelper';
 import OrderService from '../services/OrderService';
 import config from '../configs';
 import RedisClient from '../helpers/RedisClient';
+import Mailer from '../helpers/Mailer';
 
 const stripe = require('stripe')(config.STRIPE_SK);
 
@@ -58,6 +59,12 @@ export default class StripeController {
       if (stripePayload.success) {
         RedisClient.del(`order:${req.params.orderId}`);
         await Helper.changeOrderStatusToPaid(req.params.orderId);
+        Mailer.sendOrderCompletionMail(
+          req.userData.email,
+          req.userData.name,
+          req.params.orderId,
+          grandTotal.toFixed(2),
+        );
       }
 
       ResponseHelper.successWithData({ stripeResponse: stripePayload }, res);
