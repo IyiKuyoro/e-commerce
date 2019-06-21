@@ -10,6 +10,7 @@
     "format": "npm run lint && prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint ./src --fix",
     "start": "NODE_ENV=prod node ./bin/prod",
+    "setup": "npm i && chmod u+x ./scripts/setup.sh && ./scripts/setup.sh",
     "test": "NODE_ENV=test jest"
   },
   "repository": {
