@@ -1,0 +1,151 @@
+paths:
+  /:
+    post:
+      tags:
+        - Order
+      summary: Create a new order
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token
+          required: true
+        - in: cookies
+          name: cartId
+          description: The shopping cart id
+          required: true
+        - in: formData
+          name: shippingId
+          description: Th id of the shipping method to be used
+          required: true
+        - in: formData
+          name: taxId
+          description: Th id of the tax to be applied
+          required: true
+      responses:
+        200:
+          description: Order created
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              orderId:
+                type: number
+                example: 1
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Tax or shipping not found
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /order/shortDetails/{orderId}:
+    get:
+      tags:
+        - Order
+      summary: Get order's short details
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token
+          required: true
+        - in: params
+          name: orderId
+          description: The id of the order to be gotten
+          required: true
+      responses:
+        200:
+          description: Order details returned
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              order:
+                type: object
+                properties:
+                  schema:
+                    $ref: "#/definitions/orderShortDetails"
+        400:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Tax or shipping not found
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /order/inCustomer:
+    get:
+      tags:
+        - Order
+      summary: Get all orders for a customer
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token
+          required: true
+      responses:
+        200:
+          description: Orders
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              orders:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    order_id:
+                      type: number
+                      example: 1
+                    total_amount:
+                      type: number
+                      example: 15.43
+                    created_on:
+                      type: string
+                      example: 2019-06-21T11:04:30.000Z
+                    shipped_on:
+                      type: string
+                      example: null
+                    status:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: John Doe
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"

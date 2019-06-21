@@ -1,0 +1,57 @@
+paths:
+  /stripe/charge/{orderId}:
+    post:
+      tags:
+        - Stripe
+      summary: Charge a customer on a payment intent
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token
+          required: true
+        - in: params
+          name: orderId
+          description: The id of the order to be changed against
+          required: true
+        - in: formData
+          name: paymentMethodId
+          required: false
+        - in: formData
+          name: paymentIntentId
+          required: false
+      responses:
+        200:
+          description:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              stripeResponse:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  error:
+                    type: string
+                  requires_action:
+                    type: boolean
+                    example: true
+                  payment_intent_client_secret:
+                    type: string
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Order not found
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"

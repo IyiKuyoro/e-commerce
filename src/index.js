@@ -1,4 +1,5 @@
 import express from 'express';
+import swaggerui from 'swagger-ui-express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -6,6 +7,7 @@ import config from './configs';
 import logger from './helpers/logger';
 import appRouter from './router';
 import passportSetup from './configs/passportConfig';
+import swaggerSpec from './configs/swaggerSetup';
 
 const app = express();
 
@@ -40,6 +42,8 @@ app.use(cookieParser());
 app.use(passportSetup.initialize());
 app.use(passportSetup.session());
 
+app.use('/', swaggerui.serve, swaggerui.setup(swaggerSpec));
+app.use('/api/v1/docs', swaggerui.serve, swaggerui.setup(swaggerSpec));
 app.use('/api/v1/', appRouter);
 
 // Listen for wildcard routes

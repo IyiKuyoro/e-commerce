@@ -4,6 +4,7 @@ import CustomerControllers from '../controllers/CustomerController';
 
 const customerRouter = Router();
 
+// Register a new customer
 customerRouter.post(
   '/',
   CustomerMiddlewares.checkRequiredRegParams,
@@ -12,6 +13,7 @@ customerRouter.post(
   CustomerControllers.registerCustomer,
 );
 
+// Login an already registered user
 customerRouter.post(
   '/login',
   CustomerMiddlewares.checkRequiredLoginParams,
@@ -19,6 +21,7 @@ customerRouter.post(
   CustomerControllers.loginCustomer,
 );
 
+// Edit customer address
 customerRouter.put(
   '/address',
   CustomerMiddlewares.validateCustomerToken,

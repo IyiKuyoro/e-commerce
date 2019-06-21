@@ -1,0 +1,42 @@
+paths:
+  /categories/inDepartments/{departmentId}:
+    get:
+      tags:
+        - Categories
+      summary: Get all products in category
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Categories
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              rows:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    category_id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: Nature
+        204:
+          description: No categories found
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Department not found
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"

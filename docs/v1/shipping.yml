@@ -1,0 +1,72 @@
+paths:
+  /shipping/regions:
+    get:
+      tags:
+        - Shipping
+      summary: Get all shipping regions
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Shipping regions
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              shippingRegions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    shipping_region_id:
+                      type: number
+                      example: 1
+                    shipping_region:
+                      type: string
+                      example: Rest of the world
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /shipping/regions/{regionId}:
+    get:
+      tags:
+        - Shipping
+      summary: Get all shipping types in a shipping region
+      produces:
+        - application/json
+      parameters:
+        - in: params
+          name: regionId
+          description: The id of the shipping region
+          required: true
+      responses:
+        200:
+          description: Shipping regions
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              shippingRegions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    shipping_region_id:
+                      type: number
+                      example: 1
+                    shipping_region:
+                      type: string
+                      example: Rest of the world
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
