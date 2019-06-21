@@ -1,0 +1,167 @@
+paths:
+  /customers:
+    post:
+      tags:
+        - Customers
+      summary: Register a new customer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: name
+          description: The name of the user
+          required: true
+        - in: formData
+          name: email
+          description: The email of the user
+          required: true
+        - in: formData
+          name: password
+          description: The password of the user
+          required: true
+      responses:
+        201:
+          description: New user was created
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              customer:
+                type: object
+                properties:
+                  schema:
+                    $ref: "#/definitions/customer"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        409:
+          description: Email conflict with another user
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"
+  /customers/login:
+    post:
+      tags:
+        - Customers
+      summary: Login to a registered account
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: email
+          description: The email of the user
+          required: true
+        - in: formData
+          name: password
+          description: The password of the user
+          required: true
+      responses:
+        200:
+          description: Login successful
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              customer:
+                type: object
+                properties:
+                  schema:
+                    $ref: "#/definitions/customer"
+              accessToken:
+                type: string
+                example: "eyJhVCJ9.eyJpZCI6MiwibmFtZSI6Ik9wZW9sdXdhIEl5aS1LdXlvcm8iLCJlbWFpbCI6Im9wZW9sdXdhQGdtYWlsLmNvbSIsImlhdCI6MTU2MDk0NTE2MCwiZXhwIjoxNTYxMDMxNTYwfQ.fl-rVxbvFsMD-t9Tej_IFBry2H3jHZ9PGp777TWk8K8"
+              expiresIn:
+                type: string
+                example: "24h"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"
+  /customers/address:
+    put:
+      tags:
+        - Customers
+      summary: Edit customer address
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          description: Bearer token
+          required: true
+        - in: formData
+          name: address1
+          description: The first address of the user
+          required: true
+        - in: formData
+          name: address2
+          description: The second address of the user
+          required: false
+        - in: formData
+          name: city
+          description: The city of the user
+          required: true
+        - in: formData
+          name: region
+          description: The region of the user
+          required: true
+        - in: formData
+          name: postalCode
+          description: The postalCode of the user
+          required: true
+        - in: formData
+          name: country
+          description: The country of the user
+          required: true
+        - in: formData
+          name: shippingRegionId
+          description: The shipping region id of the user
+          required: true
+      responses:
+        200:
+          description: Address update successful
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              customer:
+                type: object
+                properties:
+                  schema:
+                    $ref: "#/definitions/customer"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"

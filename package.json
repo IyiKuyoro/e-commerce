@@ -40,6 +40,8 @@
     "sequelize": "^5.8.7",
     "short-uuid": "^3.1.1",
     "stripe": "^7.2.0",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui-express": "^4.0.6",
     "winston": "^3.2.1",
     "winston-loggly-bulk": "^3.0.1"
   },
@@ -59,9 +61,10 @@
   },
   "nodemonConfig": {
     "watch": [
-      "src"
+      "src",
+      "docs/v1"
     ],
     "exec": "node ./bin/dev",
-    "ext": "js"
+    "ext": "js, yml"
   }
 }

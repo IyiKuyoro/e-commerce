@@ -1,0 +1,34 @@
+paths:
+  /departments:
+    get:
+      tags:
+        - Departments
+      summary: Get all departments
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Departments
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              rows:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    department_id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: Nature
+        204:
+          description: No departments found
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"

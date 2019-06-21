@@ -1,0 +1,276 @@
+paths:
+  /shoppingcart:
+    get:
+      tags:
+        - Shopping Cart
+      summary: Get products in cart
+      produces:
+        - application/json
+      parameters:
+        - in: cookie
+          name: cartId
+          description: The id of the cart to add item to
+          required: true
+      responses:
+        200:
+          description: Product added to cart
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    item_id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: Summer Top
+                    attributes:
+                      type: string
+                      example: regular
+                    price:
+                      type: number
+                      example: 16.95
+                    quantity:
+                      type: number
+                      example: 2
+                    subtotal:
+                      type: number
+                      example: 33.90
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /shoppingcart/totalAmount:
+    get:
+      tags:
+        - Shopping Cart
+      summary: Get the total amount of items in a cart
+      produces:
+        - application/json
+      parameters:
+        - in: cookie
+          name: cartId
+          description: The id of the cart to add item to
+          required: true
+      responses:
+        200:
+          description: Product added to cart
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              totalAmount:
+                type: number
+                example: 295.4321
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /shoppingcart/removeProduct/{itemId}:
+    delete:
+      tags:
+        - Shopping Cart
+      summary: Delete an Item from the shopping cart
+      produces:
+        - application/json
+      parameters:
+        - in: params
+          name: itemId
+          description: The id of the item to be removed from the cart
+          required: true
+        - in: cookie
+          name: cartId
+          description: The id of the cart to add item to
+          required: true
+      responses:
+        200:
+          description: Product added to cart
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    item_id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: Summer Top
+                    attributes:
+                      type: string
+                      example: regular
+                    price:
+                      type: number
+                      example: 16.95
+                    quantity:
+                      type: number
+                      example: 2
+                    subtotal:
+                      type: number
+                      example: 33.90
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /shoppingcart/add:
+    post:
+      tags:
+        - Shopping Cart
+      summary: Add items to shopping cart
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: cookie
+          name: cartId
+          description: The id of the cart to add item to
+          required: true
+        - in: formData
+          name: productId
+          description: The id of the product to be added
+          required: true
+      responses:
+        200:
+          description: Product added to cart
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    item_id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: Summer Top
+                    attributes:
+                      type: string
+                      example: regular
+                    price:
+                      type: number
+                      example: 16.95
+                    quantity:
+                      type: number
+                      example: 2
+                    subtotal:
+                      type: number
+                      example: 33.90
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: product not found
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /shoppingcart/generateUniqueId:
+    get:
+      tags:
+        - Shopping Cart
+      summary: Generate a new shopping cart id and sets it in cookie
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Generate a cart id
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              cartId:
+                type: string
+                example: kqk8vsgeJ42eCkQhBg9Lmw
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /shoppingcart/update/{itemId}:
+    put:
+      tags:
+        - Shopping Cart
+      summary: Update the quantity of an item
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: cookie
+          name: cartId
+          description: The id of the cart to add item to
+          required: true
+        - in: params
+          name: itemId
+          description: The id of the item to be updated
+          required: true
+      responses:
+        200:
+          description: Products in cart
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    item_id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: Summer Top
+                    attributes:
+                      type: string
+                      example: regular
+                    price:
+                      type: number
+                      example: 16.95
+                    quantity:
+                      type: number
+                      example: 2
+                    subtotal:
+                      type: number
+                      example: 33.90
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"

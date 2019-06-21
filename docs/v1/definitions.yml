@@ -1,0 +1,203 @@
+definitions:
+  customer:
+    type: object
+    properties:
+      customer_id:
+        type: number
+        example: 2
+      name:
+        type: string
+        example: John Doe
+      email:
+        type: string
+        example: 'john.doe@example.com'
+      address_1:
+        type: string
+        example: null
+      address_2:
+        type: string
+        example: null
+      city:
+        type: string
+        example: null
+      region:
+        type: string
+        example: null
+      postal_code:
+        type: string
+        example: null
+      country:
+        type: string
+        example: null
+      shipping_region_id:
+        type: string
+        example: null
+      day_phone:
+        type: string
+        example: null
+      eve_phone:
+        type: string
+        example: null
+      mob_phone:
+        type: string
+        example: null
+  pageMeta:
+    type: object
+    properties:
+      page:
+        type: number
+        example: 1
+      totalPages:
+        type: number
+        example: 10
+      pageSize:
+        type: number
+        example: 5
+      totalProducts:
+        type: number
+        example: 45
+  singleProduct:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      product_id:
+        type: number
+        example: 5
+      name:
+        type: string
+        example: 'Spring Shirt'
+      description:
+        type: string
+        example: "When the sum come out in spring, it's mean time to swap winter jackets..."
+      price:
+        type: number
+        example: 16.50
+      discounted_price:
+        type: number
+        example: 0.00
+      image:
+        type: string
+        example: alsace.gif
+      image_2:
+        type: string
+        example: alsace-2.gif
+  product:
+    type: object
+    properties:
+      product_id:
+        type: number
+        example: 1
+      name:
+        type: string
+        example: 'Spring Shirt'
+      description:
+        type: string
+        example: "When the sum come out in spring, it's mean time to swap winter jackets..."
+      price:
+        type: number
+        example: 16.96
+      discounted_price:
+        type: number
+        example: 15.00
+      thumbnail:
+        type: string
+        example: 'sunny-side.gif'
+  products:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        count:
+          type: number
+          example: 10
+        pageMeta:
+          $ref: "#/definitions/pageMeta"
+        rows:
+          type: array
+          items:
+            type: object
+            $ref: "#/definitions/product"
+  400:
+    type: object
+    properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          $ref: "#/definitions/clientError"
+  500:
+    type: object
+    properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          $ref: "#/definitions/serverError"
+  clientError:
+    type: object
+    properties:
+        status:
+          type: number
+          example: 400
+        code:
+          type: string
+          example: USR_15
+        message:
+          type: string
+          example: "Invalid parameters provided"
+        fields:
+          type: array
+          items:
+            type: string
+            example: queryString
+  serverError:
+    type: object
+    properties:
+        status:
+          type: number
+          example: 500
+        message:
+          type: string
+          example: "Something went wrong on the server"
+  orderShortDetails:
+    type: object
+    properties:
+      order_id:
+        type: number
+        example: 5
+      total_amount:
+        type: number
+        example: 14.32
+      created_on:
+        type: string
+        example: 2019-06-21T11:04:30.000Z
+      shipped_on:
+        type: string
+        example: null
+      status:
+        type: number
+        example: 1
+      name:
+        type: string
+        example: John Doe
+      customer_id:
+        type: number
+        example: 2
+      tax_id:
+        type: number
+        example: 1
+      shipping_id:
+        type: number
+        example: 3
+      shipping_cost:
+        type: number
+        example: 32.00
+      tax_percentage:
+        type: number
+        example: 6.00
+

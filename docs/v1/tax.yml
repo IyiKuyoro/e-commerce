@@ -1,0 +1,44 @@
+paths:
+  /tax/{taxId}:
+    get:
+      tags:
+        - Tax
+      summary: Get tax information
+      produces:
+        - application/json
+      parameters:
+        - in: params
+          name: taxId
+          description: This is the id of the tax to be returned
+          required: true
+      responses:
+        200:
+          description: Tax information
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              tax:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    tax_id:
+                      type: number
+                      example: 1
+                    tax_type:
+                      type: string
+                      example: Sales Tax at 8.5%
+                    tax_percentage:
+                      type: number
+                      example: 8.50
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"

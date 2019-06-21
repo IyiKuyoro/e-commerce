@@ -1,0 +1,214 @@
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get all products in the catalogue
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: page
+          description: The page number of the searched results.
+          required: false
+          default: 1
+          type: number
+        - in: query
+          name: limit
+          description: The number of items to return on that page.
+          required: false
+          type: number
+          default: 10
+        - in: query
+          name: descriptionLength
+          description: The length of the description text to return in the results.
+          required: false
+          type: number
+          default: 200
+      responses:
+        200:
+          description: Products found.
+          schema:
+            $ref: "#/definitions/products"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/500"
+  /products/search:
+    get:
+      tags:
+        - Products
+      summary: Search for products in the catalog
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: page
+          description: The page number of the searched results.
+          required: false
+          default: 1
+          type: number
+        - in: query
+          name: limit
+          description: The number of items to return on that page.
+          required: false
+          type: number
+          default: 10
+        - in: query
+          name: descriptionLength
+          description: The length of the description text to return in the results.
+          required: false
+          type: number
+          default: 200
+        - in: query
+          name: queryString
+          description: The text to search the catalogue against.
+          type: string
+          required: true
+      responses:
+        200:
+          description: Products found.
+          schema:
+            $ref: "#/definitions/products"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"
+  /products/{productId}:
+    get:
+      tags:
+        - Products
+      summary: Get product by Id
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: productId
+          description: The Id of the product to be retrieved from the catalogue
+          required: true
+          type: number
+      responses:
+        200:
+          description: Products found.
+          schema:
+            $ref: "#/definitions/singleProduct"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"
+  /products/inDepartment/{departmentId}:
+    get:
+      tags:
+        - Products
+      summary: Search for products in a department
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: departmentId
+          description: The Id of the department to retrieve products for
+          required: true
+          type: number
+        - in: query
+          name: page
+          description: The page number of the searched results.
+          required: false
+          default: 1
+          type: number
+        - in: query
+          name: limit
+          description: The number of items to return on that page.
+          required: false
+          type: number
+          default: 10
+        - in: query
+          name: descriptionLength
+          description: The length of the description text to return in the results.
+          required: false
+          type: number
+          default: 200
+      responses:
+        200:
+          description: Products found.
+          schema:
+            $ref: "#/definitions/products"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"
+  /products/inCategories/{categoryId}:
+    get:
+      tags:
+        - Products
+      summary: Search for products in a category
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: categoryId
+          description: The Id of the category to retrieve products for
+          required: true
+          type: number
+        - in: query
+          name: page
+          description: The page number of the searched results.
+          required: false
+          default: 1
+          type: number
+        - in: query
+          name: limit
+          description: The number of items to return on that page.
+          required: false
+          type: number
+          default: 10
+        - in: query
+          name: descriptionLength
+          description: The length of the description text to return in the results.
+          required: false
+          type: number
+          default: 200
+      responses:
+        200:
+          description: Products found.
+          schema:
+            $ref: "#/definitions/products"
+        400:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        404:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/400"
+        500:
+          description: Invalid parameter's provided
+          schema:
+            $ref: "#/definitions/500"
