@@ -42,9 +42,9 @@ app.use(cookieParser());
 app.use(passportSetup.initialize());
 app.use(passportSetup.session());
 
-app.use('/', swaggerui.serve, swaggerui.setup(swaggerSpec));
 app.use('/api/v1/docs', swaggerui.serve, swaggerui.setup(swaggerSpec));
 app.use('/api/v1/', appRouter);
+app.use('/', swaggerui.serve, swaggerui.setup(swaggerSpec));
 
 // Listen for wildcard routes
 app.use('*', (req, res) => {
