@@ -5,8 +5,13 @@
     "flushdb",
     "loggly",
     "parens",
+    "poststart",
+    "posttest",
+    "prestart",
     "shopmate",
     "swaggerui",
-    "tshirtshop"
+    "tshirtshop",
+    "unmigrate",
+    "unmigrated"
   ]
 }

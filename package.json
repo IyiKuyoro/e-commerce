@@ -7,11 +7,17 @@
     "build": "chmod u+x ./scripts/build.sh && ./scripts/build.sh",
     "clear": "rm -rf dist",
     "dev": "NODE_ENV=dev nodemon",
+    "e2e": "NODE_ENV=test node ./bin/prod",
     "format": "npm run lint && prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "npx eslint ./src --fix",
+    "migrate": "node ./bin/migrate",
+    "unmigrate": "node ./bin/unmigrate",
     "start": "NODE_ENV=prod node ./bin/prod",
+    "prestart:test": "npm run posttest",
+    "start:test": "NODE_ENV=test npm run migrate && NODE_ENV=test node ./bin/prod",
     "setup": "npm i && chmod u+x ./scripts/setup.sh && ./scripts/setup.sh",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test npm run migrate && jest",
+    "posttest": "NODE_ENV=test npm run unmigrate"
   },
   "repository": {
     "type": "git",
