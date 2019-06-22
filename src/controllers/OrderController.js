@@ -7,16 +7,15 @@ export default class OrderController {
   static async createNewOrder(req, res) {
     try {
       const result = await OrderService.createOrder(
-        req.cookies.cartId,
+        req.headers.cartid,
         req.userData.id,
         req.body.shippingId,
         req.body.taxId,
       );
 
-      RedisClient.del(`cart:${req.cookies.cartId}`);
+      RedisClient.del(`cart:${req.headers.cartid}`);
       RedisClient.del(`ordersFor:${req.userData.id}`);
 
-      res.clearCookie('cartId');
       ResponseHelper.successWithData(result[0], res);
     } catch (error) {
       ResponseHelper.serverError(error, res);

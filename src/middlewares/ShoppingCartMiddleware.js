@@ -41,9 +41,9 @@ export default class ShoppingCartMiddleware {
 
   static validateShoppingCartId(req, res, next) {
     try {
-      const { cookies } = req;
+      const { headers } = req;
 
-      if (!cookies.cartId) {
+      if (!headers.cartid) {
         throw new AppError('USR_11', 400, 'No shopping cartId provided');
       }
 

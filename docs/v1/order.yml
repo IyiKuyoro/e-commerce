@@ -13,7 +13,7 @@ paths:
           name: Authorization
           description: Bearer token
           required: true
-        - in: cookies
+        - in: headers
           name: cartId
           description: The shopping cart id
           required: true

@@ -7,7 +7,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: cookie
+        - in: header
           name: cartId
           description: The id of the cart to add item to
           required: true
@@ -55,7 +55,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: cookie
+        - in: header
           name: cartId
           description: The id of the cart to add item to
           required: true
@@ -87,7 +87,7 @@ paths:
           name: itemId
           description: The id of the item to be removed from the cart
           required: true
-        - in: cookie
+        - in: header
           name: cartId
           description: The id of the cart to add item to
           required: true
@@ -141,7 +141,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: cookie
+        - in: header
           name: cartId
           description: The id of the cart to add item to
           required: true
@@ -197,7 +197,7 @@ paths:
     get:
       tags:
         - Shopping Cart
-      summary: Generate a new shopping cart id and sets it in cookie
+      summary: Generate a new shopping cart id
       produces:
         - application/json
       responses:
@@ -226,7 +226,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: cookie
+        - in: header
           name: cartId
           description: The id of the cart to add item to
           required: true

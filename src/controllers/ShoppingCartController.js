@@ -10,8 +10,8 @@ export default class ShoppingCartController {
    */
   static async getTotalAmount(req, res) {
     try {
-      const { cookies } = req;
-      const amount = await ShoppingCartService.getTotalAmount(cookies.cartId);
+      const { headers } = req;
+      const amount = await ShoppingCartService.getTotalAmount(headers.cartid);
 
       res.status(200).json({
         success: true,
@@ -29,9 +29,9 @@ export default class ShoppingCartController {
    */
   static async addProductToCart(req, res) {
     try {
-      const { cookies, body } = req;
+      const { headers, body } = req;
 
-      const result = await ShoppingCartService.addProductToCart(cookies.cartId, body.productId);
+      const result = await ShoppingCartService.addProductToCart(headers.cartid, body.productId);
 
       res.status(200).json({
         success: true,
@@ -49,9 +49,9 @@ export default class ShoppingCartController {
    */
   static async getCartProducts(req, res) {
     try {
-      const { cookies } = req;
+      const { headers } = req;
 
-      const result = await ShoppingCartService.getProductsInCartWithCache(cookies.cartId);
+      const result = await ShoppingCartService.getProductsInCartWithCache(headers.cartid);
 
       res.status(200).json({
         success: true,
@@ -63,20 +63,11 @@ export default class ShoppingCartController {
   }
 
   /**
-   * @description generate cartId
+   * @description generate cartid
    * @param  {} req
    * @param  {} res
    */
   static async generateCartId(req, res) {
-    if (req.cookies.cartId) {
-      res.cookie('cartId', req.cookies.cartId);
-      res.status(200).json({
-        success: true,
-        cartId: req.cookies.cartId,
-      });
-      return;
-    }
-
     let cartId = uuid.generate();
     let products = await ShoppingCartService.getProductsInCart(cartId);
 
@@ -87,7 +78,6 @@ export default class ShoppingCartController {
 
     ShoppingCartService.getProductsInCart(await Promise.all(products));
 
-    res.cookie('cartId', cartId);
     res.status(200).json({
       success: true,
       cartId,
@@ -101,9 +91,9 @@ export default class ShoppingCartController {
    */
   static async removeProduct(req, res) {
     try {
-      const { cookies, params } = req;
+      const { headers, params } = req;
 
-      const result = await ShoppingCartService.removeItem(cookies.cartId, params.itemId);
+      const result = await ShoppingCartService.removeItem(headers.cartid, params.itemId);
 
       res.status(200).json({
         success: true,
@@ -121,9 +111,9 @@ export default class ShoppingCartController {
    */
   static async updateItem(req, res) {
     try {
-      const { cookies, params, body } = req;
+      const { headers, params, body } = req;
 
-      const result = await ShoppingCartService.updateItem(cookies.cartId, params.itemId, body.quantity);
+      const result = await ShoppingCartService.updateItem(headers.cartid, params.itemId, body.quantity);
 
       res.status(200).json({
         success: true,
