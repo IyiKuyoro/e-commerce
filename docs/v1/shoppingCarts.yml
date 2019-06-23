@@ -83,7 +83,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: params
+        - in: path
           name: itemId
           description: The id of the item to be removed from the cart
           required: true
@@ -137,7 +137,7 @@ paths:
         - Shopping Cart
       summary: Add items to shopping cart
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       parameters:
@@ -230,7 +230,7 @@ paths:
           name: cartId
           description: The id of the cart to add item to
           required: true
-        - in: params
+        - in: path
           name: itemId
           description: The id of the item to be updated
           required: true

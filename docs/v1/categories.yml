@@ -6,6 +6,10 @@ paths:
       summary: Get all products in category
       produces:
         - application/json
+      parameters:
+        - in: path
+          name: departmentId
+          description: the department id
       responses:
         200:
           description: Categories

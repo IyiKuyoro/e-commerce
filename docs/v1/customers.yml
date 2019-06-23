@@ -5,20 +5,23 @@ paths:
         - Customers
       summary: Register a new customer
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       parameters:
         - in: formData
           name: name
+          type: string
           description: The name of the user
           required: true
         - in: formData
           name: email
+          type: string
           description: The email of the user
           required: true
         - in: formData
           name: password
+          type: string
           description: The password of the user
           required: true
       responses:
@@ -53,16 +56,18 @@ paths:
         - Customers
       summary: Login to a registered account
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       parameters:
         - in: formData
           name: email
+          type: string
           description: The email of the user
           required: true
         - in: formData
           name: password
+          type: string
           description: The password of the user
           required: true
       responses:
@@ -103,7 +108,7 @@ paths:
         - Customers
       summary: Edit customer address
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       parameters:

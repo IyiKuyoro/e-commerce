@@ -5,7 +5,7 @@ paths:
         - Order
       summary: Create a new order
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       parameters:
@@ -13,7 +13,7 @@ paths:
           name: Authorization
           description: Bearer token
           required: true
-        - in: headers
+        - in: header
           name: cartId
           description: The shopping cart id
           required: true
@@ -63,7 +63,7 @@ paths:
           name: Authorization
           description: Bearer token
           required: true
-        - in: params
+        - in: path
           name: orderId
           description: The id of the order to be gotten
           required: true

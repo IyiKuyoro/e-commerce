@@ -7,7 +7,7 @@ const options = {
       version: '1.0.0',
       description: 'This documentation contains all the endpoints currently available on Shopmate',
     },
-    host: 'https://https://iyikuyoro-commerce.herokuapp.com',
+    host: 'iyikuyoro-commerce.herokuapp.com',
     basePath: '/api/v1',
   },
   apis: ['./docs/**/*.yml'],

@@ -11,13 +11,8 @@ import swaggerSpec from './configs/swaggerSetup';
 const app = express();
 
 app.use(cors());
-app.use((req, res, next) => {
-  res.header('Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.text());
 app.use(passportSetup.initialize());
 app.use(passportSetup.session());
 

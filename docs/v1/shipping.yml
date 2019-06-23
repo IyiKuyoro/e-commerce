@@ -38,7 +38,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - in: params
+        - in: path
           name: regionId
           description: The id of the shipping region
           required: true
